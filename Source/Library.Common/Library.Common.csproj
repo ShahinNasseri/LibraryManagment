@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Constants\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Validators\" />
     <Folder Include="Services\" />
