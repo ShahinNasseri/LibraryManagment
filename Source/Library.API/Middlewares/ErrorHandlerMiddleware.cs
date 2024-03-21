@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using Microsoft.IO;
+using Library.API.Models;
 
 namespace Library.API.Middlewares
 {
@@ -20,7 +21,7 @@ namespace Library.API.Middlewares
             _recyclableMemoryStreamManager = recyclableMemoryStreamManager;
         }
 
-        public async Task Invoke(HttpContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IErrorLogService errorLogService)
+        public async Task Invoke(HttpContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             try
             {
@@ -52,7 +53,7 @@ namespace Library.API.Middlewares
                 Type exceptionType = error.GetType();
                 if (customExceptionsList.Any(a => a == exceptionType))
                 {
-                    responseResult = await HandleCustomException(context, error, response);
+                    responseResult = HandleCustomException(context, error, response);
                 }
                 else if (error is KeyNotFoundException)
                 {
@@ -60,18 +61,18 @@ namespace Library.API.Middlewares
                 }
                 else
                 {
-                    responseResult = await HandleInternalException(context, error, response, env, errorLogService);
+                    responseResult = await HandleInternalException(context, error, response, env);
                 }
 
                 await response.WriteAsync(responseResult);
             }
         }
 
-        private async Task<string> HandleCustomException(HttpContext context, Exception error, HttpResponse response)
+        private static string HandleCustomException(HttpContext context, Exception error, HttpResponse response)
         {
             response.StatusCode = (int)HttpStatusCode.BadRequest;
             // Serialize directly without intermediate conversion to ApiResult, assuming ApiResult is your custom response model
-            return JsonSerializer.Serialize(new ApiResult(null, 400, new string[] { error.Message }));
+            return JsonSerializer.Serialize(new ApiResult(null, 400, [error.Message]));
         }
 
         private string Handle404Exception(HttpContext context, Exception error, HttpResponse response)
@@ -80,11 +81,11 @@ namespace Library.API.Middlewares
             return JsonSerializer.Serialize(new ApiResult(null, 404, new string[] { "Resource not found." }));
         }
 
-        private async Task<string> HandleInternalException(HttpContext context, Exception error, HttpResponse response, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IErrorLogService errorLogService)
+        private async Task<string> HandleInternalException(HttpContext context, Exception error, HttpResponse response, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var errorModel = GenerateErrorModel(context, error);
-            await errorLogService.InsertAsync(errorModel); // Assume InsertAsync is the correct async method
+            //var errorModel = GenerateErrorModel(context, error);
+            //await errorLogService.InsertAsync(errorModel); // Assume InsertAsync is the correct async method
 
             if (env.IsDevelopment())
             {
@@ -111,23 +112,23 @@ namespace Library.API.Middlewares
             return requestBody;
         }
 
-        private ErrorLog GenerateErrorModel(HttpContext context, Exception error)
-        {
-            var st = new StackTrace(error, true);
-            var frame = st.GetFrames()?.FirstOrDefault(f => f.GetFileLineNumber() > 0);
+        //private ErrorLog GenerateErrorModel(HttpContext context, Exception error)
+        //{
+        //    var st = new StackTrace(error, true);
+        //    var frame = st.GetFrames()?.FirstOrDefault(f => f.GetFileLineNumber() > 0);
 
-            return new ErrorLog
-            {
-                Action = context.Request.RouteValues["action"]?.ToString(),
-                Controller = context.Request.RouteValues["controller"]?.ToString(),
-                BodyData = ReadHttpPostBodyData(context),
-                DateTime = DateTime.UtcNow,
-                ErrorMessage = error.Message,
-                InnerException = error.InnerException?.ToString(),
-                Line = frame?.GetFileLineNumber().ToString(),
-                Page = frame?.GetFileName(),
-                Method = frame?.GetMethod()?.Name,
-            };
-        }
+        //    return new ErrorLog
+        //    {
+        //        Action = context.Request.RouteValues["action"]?.ToString(),
+        //        Controller = context.Request.RouteValues["controller"]?.ToString(),
+        //        BodyData = ReadHttpPostBodyData(context),
+        //        DateTime = DateTime.UtcNow,
+        //        ErrorMessage = error.Message,
+        //        InnerException = error.InnerException?.ToString(),
+        //        Line = frame?.GetFileLineNumber().ToString(),
+        //        Page = frame?.GetFileName(),
+        //        Method = frame?.GetMethod()?.Name,
+        //    };
+        //}
     }
 }
