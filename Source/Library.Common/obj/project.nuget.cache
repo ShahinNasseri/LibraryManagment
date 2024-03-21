@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "0ZWQumyLJX+XkWp8IiVEFyFSOyjO7tTs90qnoEMDGwayxVWfVw92CbKmWkaH/Mh9esGOekZPbYJc466UMZSBjA==",
+  "dgSpecHash": "OTS79rK40oF7Yxt/L+CtxnJom84T9Pk+OB93VAAxVkOaTbBDuN2oCooYECArvHTjNezxY65BGk+d+sZkJV0WIw==",
   "success": true,
   "projectFilePath": "E:\\Project\\Ali\\Library\\LibraryManagment\\Source\\Library.Common\\Library.Common.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Shahin\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512"
+  ],
   "logs": []
 }
