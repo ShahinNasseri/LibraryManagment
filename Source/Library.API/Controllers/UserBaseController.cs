@@ -1,17 +1,16 @@
 ﻿using Library.API.Attributes;
 using Library.API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.API.Controllers
 {
     [ValidateModelState]
-    [VidayarAuthorization(TokenType.AdminPanel)]
+    [VidayarAuthorization(TokenType.Application)]
     [FillIdentityProps]
-    public class AdminBaseController : ControllerBase
+    public class UserBaseController: ControllerBase
     {
         protected new ApiResult Response;
-        public AdminBaseController()
+        public UserBaseController()
         {
             Response = new ApiResult(null);
         }
