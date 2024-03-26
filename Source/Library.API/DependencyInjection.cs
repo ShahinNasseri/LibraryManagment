@@ -24,8 +24,14 @@ namespace Library.API
             services.AddApiOptions();
             services.AddValidatorAndSwaggerOptions();
             services.AddHttpContextAccessor();
-            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
+            services.AddExtraServices(configuration);
             return services;
+        }
+
+        private static void AddExtraServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<Microsoft.IO.RecyclableMemoryStreamManager>();
+            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
         }
 
         private static void AddApiOptions(this IServiceCollection services)

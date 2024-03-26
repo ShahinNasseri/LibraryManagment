@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\ValueObjects\" />
     <Folder Include="Interfaces\Repositories\" />
     <Folder Include="Services\" />
