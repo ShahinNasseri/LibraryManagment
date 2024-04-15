@@ -13,6 +13,7 @@ using System.Text;
 using Library.Common.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using Library.API.ExceptionHandlers;
 
 namespace Library.API
 {
@@ -20,12 +21,26 @@ namespace Library.API
     {
         public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddExceptionHandlers();
             services.AddEndpointsApiExplorer();
             services.AddApiOptions();
             services.AddValidatorAndSwaggerOptions();
             services.AddHttpContextAccessor();
-            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
+            services.AddExtraServices(configuration);
             return services;
+        }
+
+        private static void AddExceptionHandlers(this IServiceCollection services)
+        {
+            services.AddExceptionHandler<CustomExceptionHandler>();
+            services.AddExceptionHandler<NotFoundExceptionHandler>();
+            services.AddExceptionHandler<InternalExceptionHandler>(); // this one should be the last Exception Handler becuse it does not have any if in it and catch any unhandled errors
+        }
+
+        private static void AddExtraServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<Microsoft.IO.RecyclableMemoryStreamManager>();
+            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
         }
 
         private static void AddApiOptions(this IServiceCollection services)

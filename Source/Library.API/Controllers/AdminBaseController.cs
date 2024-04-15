@@ -8,6 +8,7 @@ namespace Library.API.Controllers
     [ValidateModelState]
     [VidayarAuthorization(TokenType.AdminPanel)]
     [FillIdentityProps]
+    [ApiController]
     public class AdminBaseController : ControllerBase
     {
         protected new ApiResult Response;

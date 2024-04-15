@@ -1,7 +1,10 @@
 using Library.API;
 using Library.API.Middlewares;
 using Library.Infrastructure;
+using Library.Infrastructure.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Library.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +14,24 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiServices(configuration);
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(configuration);
+builder.Services.AddCore(configuration);
+
+
+
 
 
 var app = builder.Build();
+app.UseExceptionHandler(); // Should be always in first place to catch all errors
+
+// Ensure the database is created
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    //dbContext.Database.EnsureCreated(); // This will create the database if it does not exist
+    dbContext.Database.Migrate(); // Use this instead if you're using migrations
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -56,7 +73,7 @@ app.UseStaticFiles();
 //});
 
 app.UseRouting();
-app.UseMiddleware<ErrorHandlerMiddleware>();
+//app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

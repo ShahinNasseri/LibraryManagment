@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Common.Configuration
+namespace Library.Core.Interfaces.Services
 {
-    public class AppOptions
+    public interface IAdminUserService
     {
-        public string MariaDBConnectionString { get; set; }
+        Task Login();
     }
 }
