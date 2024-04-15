@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Library.Common.Configuration;
+using Library.Core.Interfaces;
+using Library.Infrastructure.Data;
+using Library.Infrastructure.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +15,13 @@ namespace Library.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            var appOptions = configuration.GetSection("AppOptions").Get<AppOptions>()!;
+            services.AddDbContext<AppDbContext>(options =>
+                            options.UseMySql(appOptions.MariaDBConnectionString, ServerVersion.AutoDetect(appOptions.MariaDBConnectionString)));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             return services;
         }
     }
