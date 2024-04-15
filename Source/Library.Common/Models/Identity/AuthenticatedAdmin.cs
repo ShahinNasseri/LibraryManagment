@@ -13,14 +13,14 @@ namespace Library.Common.Models.Identity
 
         }
 
-        public AuthenticatedAdmin(int adminId, string username, string email)
+        public AuthenticatedAdmin(long adminId, string username, string email)
         {
             AdminId = adminId;
             Username = username;
             Email = email;
         }
 
-        public int AdminId { get; set; }
+        public long AdminId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
     }

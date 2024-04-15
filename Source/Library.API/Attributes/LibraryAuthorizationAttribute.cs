@@ -27,7 +27,6 @@ namespace Library.API.Attributes
             {
                 if (HasAllowAnonymous(context) || !IsIdentityValid(identity))
                 {
-                    context.Result = new UnauthorizedResult();
                     return;
                 }
 

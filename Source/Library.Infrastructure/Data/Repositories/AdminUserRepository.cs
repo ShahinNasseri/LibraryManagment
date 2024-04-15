@@ -29,9 +29,10 @@ namespace Library.Infrastructure.Data.Repositories
             return await _context.Set<AdminUser>().FindAsync(id);
         }
 
-        public async Task AddAsync(AdminUser entity)
+        public async Task<AdminUser> AddAsync(AdminUser entity)
         {
-            await _context.Set<AdminUser>().AddAsync(entity);
+           await _context.Set<AdminUser>().AddAsync(entity);
+            return entity;
         }
 
         public void Update(AdminUser entity)
@@ -42,6 +43,16 @@ namespace Library.Infrastructure.Data.Repositories
         public void Delete(AdminUser entity)
         {
             _context.Set<AdminUser>().Remove(entity);
+        }
+
+        public async Task<AdminUser?> GetByUsernameAsync(string username)
+        {
+           return await _context.Set<AdminUser>().FirstOrDefaultAsync(x => x.Username == username);
+        }
+
+        public async Task<AdminUser?> GetByEmailAsync(string email)
+        {
+            return await _context.Set<AdminUser>().FirstOrDefaultAsync(x => x.Email == email);
         }
     }
 }

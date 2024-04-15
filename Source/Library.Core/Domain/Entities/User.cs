@@ -17,5 +17,7 @@ namespace Library.Core.Domain.Entities
         public DateTime DateCreated { get; set; }
         public bool IsActive { get; set; }
         public bool Verified { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

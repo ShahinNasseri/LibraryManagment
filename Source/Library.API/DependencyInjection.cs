@@ -14,6 +14,7 @@ using Library.Common.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Library.API.ExceptionHandlers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Library.API
 {
@@ -21,6 +22,10 @@ namespace Library.API
     {
         public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<AdminSettings>(configuration.GetSection(nameof(AdminSettings)));
+            services.Configure<UserSettings>(configuration.GetSection(nameof(UserSettings)));
+
+
             services.AddExceptionHandlers();
             services.AddEndpointsApiExplorer();
             services.AddApiOptions();
@@ -40,7 +45,7 @@ namespace Library.API
         private static void AddExtraServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<Microsoft.IO.RecyclableMemoryStreamManager>();
-            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
+            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection(nameof(UserSettings)).Get<UserSettings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection(nameof(AdminSettings)).Get<AdminSettings>()!.JwtSettings);
         }
 
         private static void AddApiOptions(this IServiceCollection services)
@@ -60,6 +65,7 @@ namespace Library.API
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
+            services.AddMvc();
         }
 
         private static void AddValidatorAndSwaggerOptions(this IServiceCollection services)

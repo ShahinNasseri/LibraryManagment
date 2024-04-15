@@ -22,7 +22,7 @@ builder.Services.AddCore(configuration);
 
 
 var app = builder.Build();
-app.UseExceptionHandler(); // Should be always in first place to catch all errors
+app.UseExceptionHandler(o => { }); // Should be always in first place to catch all errors
 
 // Ensure the database is created
 using (var scope = app.Services.CreateScope())

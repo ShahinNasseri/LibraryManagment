@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Library.Infrastructure\Library.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validations\AdminAuth\Responses\" />
+  </ItemGroup>
+
 </Project>

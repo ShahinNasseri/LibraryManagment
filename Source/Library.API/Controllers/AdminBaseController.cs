@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.API.Controllers
 {
+    [ApiController]
     [ValidateModelState]
     [VidayarAuthorization(TokenType.AdminPanel)]
     [FillIdentityProps]
-    [ApiController]
     public class AdminBaseController : ControllerBase
     {
         protected new ApiResult Response;

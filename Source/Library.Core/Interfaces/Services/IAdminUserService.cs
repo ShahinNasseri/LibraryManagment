@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Library.Common.DTOs.AdminAuth.Requests;
+using Library.Common.Models.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,10 @@ namespace Library.Core.Interfaces.Services
 {
     public interface IAdminUserService
     {
-        Task Login();
+        Task<AccessTokenModel> Register(RegisterAdminRequest request);
+
+        Task<bool> IsUsernameUniqueAsync(string username, CancellationToken token);
+        Task<bool> IsEmailUniqueAsync(string email, CancellationToken token);
+
     }
 }

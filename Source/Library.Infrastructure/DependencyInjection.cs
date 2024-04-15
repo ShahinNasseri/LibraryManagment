@@ -1,7 +1,9 @@
 ﻿using Library.Common.Configuration;
 using Library.Core.Interfaces;
+using Library.Core.Interfaces.Services;
 using Library.Infrastructure.Data;
 using Library.Infrastructure.Data.Contexts;
+using Library.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,9 @@ namespace Library.Infrastructure
             services.AddDbContext<AppDbContext>(options =>
                             options.UseMySql(appOptions.MariaDBConnectionString, ServerVersion.AutoDetect(appOptions.MariaDBConnectionString)));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAdminTokenService, AdminTokenService>();
+            services.AddScoped<IUserTokenService, UserTokenService>();
+
 
             return services;
         }

@@ -9,10 +9,12 @@ namespace Library.Core.Interfaces.Repositories
 {
     public interface IAdminUserRepository
     {
-        Task AddAsync(AdminUser entity);
+        Task<AdminUser> AddAsync(AdminUser entity);
         void Delete(AdminUser entity);
         Task<IEnumerable<AdminUser>> GetAllAsync();
         Task<AdminUser?> GetByIdAsync(long id);
+        Task<AdminUser?> GetByUsernameAsync(string username);
+        Task<AdminUser?> GetByEmailAsync(string email);
         void Update(AdminUser entity);
     }
 }

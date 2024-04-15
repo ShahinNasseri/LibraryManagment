@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Common.Configuration
 {
-    public class Settings
+    public class UserSettings
     {
         public JwtSettings JwtSettings { get; set; }
     }

@@ -21,9 +21,8 @@ namespace Library.Infrastructure.Identity
     {
         private readonly JwtSettings _jwtSettings;
 
-        public AdminTokenService(IOptions<Settings> settings)
+        public AdminTokenService(IOptions<AdminSettings> settings)
         {
-
             var systemSetting = settings.Value ?? throw new CustomArgumentNullException(nameof(settings));
             _jwtSettings = systemSetting.JwtSettings;
             ValidateSettings(_jwtSettings);
@@ -129,8 +128,8 @@ namespace Library.Infrastructure.Identity
             if (string.IsNullOrWhiteSpace(settings.Issuer) || string.IsNullOrWhiteSpace(settings.Audience))
                 throw new ArgumentException("Issuer and Audience must be set.", nameof(settings));
 
-            if (settings.SecretKey.Length < 16 || settings.EncryptKey.Length != 16)
-                throw new ArgumentException("SecretKey must be at least 16 characters long, and EncryptKey must be exactly 16 characters", nameof(settings));
+            if (settings.SecretKey.Length < 32 || settings.EncryptKey.Length != 16)
+                throw new ArgumentException("SecretKey must be at least 32 characters long, and EncryptKey must be exactly 16 characters", nameof(settings));
         }
 
         private (SigningCredentials, EncryptingCredentials) GetCredentials()
