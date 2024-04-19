@@ -15,6 +15,11 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Library.API.ExceptionHandlers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Library.API.Validations.AdminAuth.Requests;
+using System;
+using Library.Common.DTOs.AdminAuth.Requests;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace Library.API
 {
@@ -65,13 +70,14 @@ namespace Library.API
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
-            services.AddMvc();
         }
 
         private static void AddValidatorAndSwaggerOptions(this IServiceCollection services)
         {
+            services.AddFluentValidationAutoValidation();
             // Add FV validators
-            services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes:true);
+
             // Add FV Rules to swagger
             services.AddFluentValidationRulesToSwagger();
 

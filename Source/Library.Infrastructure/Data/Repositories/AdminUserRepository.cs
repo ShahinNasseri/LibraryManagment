@@ -54,5 +54,10 @@ namespace Library.Infrastructure.Data.Repositories
         {
             return await _context.Set<AdminUser>().FirstOrDefaultAsync(x => x.Email == email);
         }
+
+        public async Task<AdminUser?> GetByEmailOrUsernameAsync(string emailOrUsername)
+        {
+            return await _context.Set<AdminUser>().FirstOrDefaultAsync(x => x.Email == emailOrUsername || x.Username == emailOrUsername);
+        }
     }
 }

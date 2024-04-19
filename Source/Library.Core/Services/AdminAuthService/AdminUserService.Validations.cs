@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Core.Services
 {
-    public partial class AdminUserService
+    public partial class AdminAuthService
     {
         public async Task<bool> IsEmailUniqueAsync(string email, CancellationToken token)
         {

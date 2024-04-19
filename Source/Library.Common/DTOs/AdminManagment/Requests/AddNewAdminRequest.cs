@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Common.DTOs.AdminAuth.Requests
+namespace Library.Common.DTOs.AdminManagment.Requests
 {
-    public class RegisterAdminRequest
+    public class AddNewAdminRequest
     {
         public string? FullName { get; set; }
         public string? Email { get; set; }
@@ -17,5 +17,5 @@ namespace Library.Common.DTOs.AdminAuth.Requests
     }
 
 
-  
+
 }

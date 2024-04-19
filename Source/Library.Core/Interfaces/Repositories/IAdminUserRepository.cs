@@ -15,6 +15,7 @@ namespace Library.Core.Interfaces.Repositories
         Task<AdminUser?> GetByIdAsync(long id);
         Task<AdminUser?> GetByUsernameAsync(string username);
         Task<AdminUser?> GetByEmailAsync(string email);
+        Task<AdminUser?> GetByEmailOrUsernameAsync(string emailOrUsername);
         void Update(AdminUser entity);
     }
 }
