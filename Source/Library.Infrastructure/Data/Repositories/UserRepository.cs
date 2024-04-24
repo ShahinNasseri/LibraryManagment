@@ -15,6 +15,7 @@ namespace Library.Infrastructure.Data.Repositories
 
         public UserRepository(DbContext context)
         {
+
             _context = context;
         }
 
@@ -28,9 +29,10 @@ namespace Library.Infrastructure.Data.Repositories
             return await _context.Set<User>().FindAsync(id);
         }
 
-        public async Task AddAsync(User entity)
+        public async Task<User> AddAsync(User entity)
         {
-            await _context.Set<User>().AddAsync(entity);
+           await _context.Set<User>().AddAsync(entity);
+            return entity;
         }
 
         public void Update(User entity)
@@ -41,6 +43,21 @@ namespace Library.Infrastructure.Data.Repositories
         public void Delete(User entity)
         {
             _context.Set<User>().Remove(entity);
+        }
+
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+           return await _context.Set<User>().FirstOrDefaultAsync(x => x.Username == username);
+        }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Set<User>().FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<User?> GetByEmailOrUsernameAsync(string emailOrUsername)
+        {
+            return await _context.Set<User>().FirstOrDefaultAsync(x => x.Email == emailOrUsername || x.Username == emailOrUsername);
         }
     }
 }

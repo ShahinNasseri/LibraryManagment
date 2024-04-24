@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\Auth\Responses\" />
+    <Folder Include="DTOs\AdminManagment\Responses\" />
     <Folder Include="Extensions\" />
     <Folder Include="Constants\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Validators\" />
     <Folder Include="Services\" />
   </ItemGroup>

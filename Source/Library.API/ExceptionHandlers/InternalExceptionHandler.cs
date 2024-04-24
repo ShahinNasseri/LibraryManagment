@@ -9,23 +9,6 @@ namespace Library.API.ExceptionHandlers
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            var customExceptionsList = new List<Type>
-            {
-                typeof(CustomArgumentNullException),
-                typeof(CustomInvalidRequestException),
-                typeof(CustomNotFoundException),
-                typeof(CustomOperationFailException),
-                typeof(CustomSecurityException),
-                typeof(CustomSecurityTokenException),
-                typeof(CustomValidationException),
-            };
-
-            Type exceptionType = exception.GetType();
-            if (!customExceptionsList.Any(a => a == exceptionType))
-            {
-                return false;
-            }
-
             ApiResult? result = null;
             if (env.IsDevelopment())
             {

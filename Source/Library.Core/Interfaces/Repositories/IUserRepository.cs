@@ -9,10 +9,13 @@ namespace Library.Core.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        Task AddAsync(User entity);
+        Task<User> AddAsync(User entity);
         void Delete(User entity);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(long id);
+        Task<User?> GetByUsernameAsync(string username);
+        Task<User?> GetByEmailAsync(string email);
+        Task<User?> GetByEmailOrUsernameAsync(string emailOrUsername);
         void Update(User entity);
     }
 }

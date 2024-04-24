@@ -13,19 +13,15 @@ namespace Library.Common.Models.Identity
 
         }
 
-        public AuthenticatedUser(long userId, string username, string email, string firstName, string lastName)
+        public AuthenticatedUser(long userId, string username, string email)
         {
-            UserId = userId;
+            userId = userId;
             Username = username;
             Email = email;
-            FirstName = firstName;
-            LastName = lastName;
         }
 
-        public long UserId { get; set; }
+        public long userId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 }

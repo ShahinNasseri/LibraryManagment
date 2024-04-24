@@ -14,6 +14,12 @@ using Library.Common.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Library.API.ExceptionHandlers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Library.API.Validations.AdminAuth.Requests;
+using System;
+using Library.Common.DTOs.AdminAuth.Requests;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace Library.API
 {
@@ -21,6 +27,9 @@ namespace Library.API
     {
         public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<UserSettings>(configuration.GetSection(nameof(UserSettings)));
+
+
             services.AddExceptionHandlers();
             services.AddEndpointsApiExplorer();
             services.AddApiOptions();
@@ -40,7 +49,7 @@ namespace Library.API
         private static void AddExtraServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<Microsoft.IO.RecyclableMemoryStreamManager>();
-            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection("UserPanelSettings").Get<Settings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection("AdminPanelSettings").Get<Settings>()!.JwtSettings);
+            services.AddJwtAuthentication(configuration.GetSection(nameof(UserSettings)).Get<UserSettings>()!.JwtSettings);
         }
 
         private static void AddApiOptions(this IServiceCollection services)
@@ -64,8 +73,10 @@ namespace Library.API
 
         private static void AddValidatorAndSwaggerOptions(this IServiceCollection services)
         {
+            services.AddFluentValidationAutoValidation();
             // Add FV validators
-            services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes:true);
+
             // Add FV Rules to swagger
             services.AddFluentValidationRulesToSwagger();
 
@@ -98,16 +109,17 @@ namespace Library.API
             });
         }
 
-        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings appjwtSettings, JwtSettings adminPanelJwtSetting)
+        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSetting)
         {
-            services.AddAuthentication(options => {
-                options.DefaultScheme = "Application_OR_AdminPanel";
-                options.DefaultChallengeScheme = "Application_OR_AdminPanel";
-
-            }).AddJwtBearer("Application", options =>
+            services.AddAuthentication(options =>
             {
-                var secretKey = Encoding.UTF8.GetBytes(appjwtSettings.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(appjwtSettings.EncryptKey);
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                var secretKey = Encoding.UTF8.GetBytes(jwtSetting.SecretKey);
+                var encryptionKey = Encoding.UTF8.GetBytes(jwtSetting.EncryptKey);
 
                 var validationParameters = new TokenValidationParameters
                 {
@@ -120,39 +132,11 @@ namespace Library.API
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    ValidateAudience = true, //default : false
-                    ValidAudience = appjwtSettings.Audience,
+                    ValidateAudience = true, // default: false
+                    ValidAudience = jwtSetting.Audience,
 
-                    ValidateIssuer = true, //default : false
-                    ValidIssuer = appjwtSettings.Issuer,
-
-                    TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
-                };
-
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = validationParameters;
-            }).AddJwtBearer("AdminPanel", options =>
-            {
-                var secretKey = Encoding.UTF8.GetBytes(adminPanelJwtSetting.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(adminPanelJwtSetting.EncryptKey);
-
-                var validationParameters = new TokenValidationParameters
-                {
-                    ClockSkew = TimeSpan.Zero, // default: 5 min
-                    RequireSignedTokens = true,
-
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
-
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-
-                    ValidateAudience = true, //default : false
-                    ValidAudience = adminPanelJwtSetting.Audience,
-
-                    ValidateIssuer = true, //default : false
-                    ValidIssuer = adminPanelJwtSetting.Issuer,
+                    ValidateIssuer = true, // default: false
+                    ValidIssuer = jwtSetting.Issuer,
 
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
                 };
@@ -160,32 +144,13 @@ namespace Library.API
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = validationParameters;
-            }).AddPolicyScheme("Application_OR_AdminPanel", "Application_OR_AdminPanel", options => {
-                options.ForwardDefaultSelector = context =>
-                {
-                    string authorization = context.Request.Headers[HeaderNames.Authorization];
-                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
-                    {
-                        var token = authorization.Replace("Bearer ", string.Empty);
-                        var isValidAdminPanelToken = IsValidatedToken(adminPanelJwtSetting, token);
-                        var isValidApplicationToken = IsValidatedToken(appjwtSettings, token);
-                        if (isValidAdminPanelToken)
-                            return "AdminPanel";
-
-                        if (isValidApplicationToken)
-                            return "Application";
-                    }
-                    return "AdminPanel";
-                };
             });
-
 
             // Authorization
             services.AddAuthorization(options =>
             {
                 var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
-                    JwtBearerDefaults.AuthenticationScheme,
-                    "AdminPanel");
+                    JwtBearerDefaults.AuthenticationScheme);
                 defaultAuthorizationPolicyBuilder =
                     defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
                 options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();

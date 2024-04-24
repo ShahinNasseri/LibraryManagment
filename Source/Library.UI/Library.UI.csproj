@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="AdminPanel\**" />
+    <Compile Remove="AdminWeb\node_modules\**" />
+    <EmbeddedResource Remove="AdminPanel\**" />
+    <EmbeddedResource Remove="AdminWeb\node_modules\**" />
+    <None Remove="AdminPanel\**" />
+    <None Remove="AdminWeb\node_modules\**" />
+  </ItemGroup>
+
 </Project>

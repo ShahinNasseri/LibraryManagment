@@ -2,6 +2,7 @@
 using Library.Core.Interfaces;
 using Library.Core.Interfaces.Services;
 using Library.Core.Services;
+using Library.Core.Services.AdminManagmentService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,7 +17,9 @@ namespace Library.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IAdminUserService, AdminUserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAdminManagmentService, AdminManagmentService>();
+
             return services;
         }
     }
