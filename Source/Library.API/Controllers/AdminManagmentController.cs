@@ -19,7 +19,7 @@ namespace Library.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ApiResult> Add([FromBody] AddNewAdminRequest request)
+        public async Task<ApiResult> Insert([FromBody] AddNewAdminRequest request)
         {
             await _adminManagmentService.AddNewAdmin(request);
             return Response;

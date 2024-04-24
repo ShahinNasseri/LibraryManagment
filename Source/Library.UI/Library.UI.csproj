@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="AdminPanel\**" />
+    <EmbeddedResource Remove="AdminPanel\**" />
+    <None Remove="AdminPanel\**" />
+  </ItemGroup>
+
 </Project>
