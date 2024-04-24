@@ -15,11 +15,13 @@ using System.Threading.Tasks;
 
 namespace Library.Infrastructure.Identity
 {
-    public class UserTokenService : IUserTokenService
+   
+
+    public class TokenService : ITokenService
     {
         private readonly JwtSettings _jwtSettings;
 
-        public UserTokenService(IOptions<UserSettings> settings)
+        public TokenService(IOptions<UserSettings> settings)
         {
             var systemSetting = settings.Value ?? throw new CustomArgumentNullException(nameof(settings));
             _jwtSettings = systemSetting.JwtSettings;
@@ -36,7 +38,7 @@ namespace Library.Infrastructure.Identity
             var securityToken = CreateJwtSecurityToken(claims, signingCredentials, encryptingCredentials);
             var refreshToken = GenerateRefreshToken();
 
-            return new AccessTokenModel(securityToken, refreshToken, user.UserId);
+            return new AccessTokenModel(securityToken, refreshToken, user.userId);
         }
 
         private JwtSecurityToken CreateJwtSecurityToken(IEnumerable<Claim> claims, SigningCredentials signingCredentials, EncryptingCredentials encryptingCredentials)
@@ -63,9 +65,9 @@ namespace Library.Infrastructure.Identity
 
             var securityToken = CreateJwtSecurityToken(claims, signingCredentials, encryptingCredentials);
             var refreshToken = GenerateRefreshToken();
-            var adminId = ExtractAdminId(claims);
+            var userId = ExtractUserId(claims);
 
-            return new AccessTokenModel(securityToken, refreshToken, adminId);
+            return new AccessTokenModel(securityToken, refreshToken, userId);
         }
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
@@ -106,14 +108,14 @@ namespace Library.Infrastructure.Identity
             }
         }
 
-        private IEnumerable<Claim> GetClaims(AuthenticatedUser user)
+        private IEnumerable<Claim> GetClaims(AuthenticatedUser admin)
         {
             // Assume this might involve async operations (e.g., database access)
             return
             [
-                new Claim("UserId", user.UserId.ToString()),
-                new Claim("Username", user.Username),
-                new Claim("Email", user.Email)
+                new Claim("UserId", admin.userId.ToString()),
+                new Claim("Username", admin.Username),
+                new Claim("Email", admin.Email)
             ];
         }
 
@@ -142,12 +144,13 @@ namespace Library.Infrastructure.Identity
         }
 
 
-        private long ExtractAdminId(IEnumerable<Claim> claims)
+        private long ExtractUserId(IEnumerable<Claim> claims)
         {
             if (!long.TryParse(claims.FirstOrDefault(c => c.Type == "UserId")?.Value, out var userId))
                 throw new CustomOperationFailException("UserId claim is missing or not a valid long.");
 
             return userId;
         }
+
     }
 }

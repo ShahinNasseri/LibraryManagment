@@ -13,7 +13,6 @@ namespace Library.Infrastructure.Data.Contexts
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         // DbSet properties for your entities
-        public DbSet<AdminUser> AdminUser { get; set; }
         public DbSet<User> User { get; set; }
 
 

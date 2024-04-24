@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.API.Controllers
 {
     [Route("api/[controller]/[action]")]
-    public class AdminManagmentController : AdminBaseController
+    public class AdminManagmentController : BaseController
     {
         private IAdminManagmentService _adminManagmentService { get; set; }
 

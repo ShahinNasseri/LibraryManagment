@@ -17,7 +17,7 @@ namespace Library.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IAdminAuthService, AdminAuthService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAdminManagmentService, AdminManagmentService>();
 
             return services;

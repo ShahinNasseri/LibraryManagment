@@ -18,13 +18,11 @@ namespace Library.Infrastructure.Data
         private readonly AppDbContext _context;
         private IDbContextTransaction? _currentTransaction;
         public IUserRepository Users { get; private set; }
-        public IAdminUserRepository Admins { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Users = new UserRepository(context);
-            Admins = new AdminUserRepository(context);
             // Initialize other repositories similarly
         }
 

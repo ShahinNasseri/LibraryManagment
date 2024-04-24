@@ -6,19 +6,12 @@ using System.Security.Claims;
 
 namespace Library.API.Attributes
 {
-    public enum TokenType
-    {
-        AdminPanel,
-        Application
-    }
 
-    public class VidayarAuthorizationAttribute : ActionFilterAttribute, IAuthorizationFilter
+    public class LibraryAuthorizationAttribute : ActionFilterAttribute, IAuthorizationFilter
     {
-        private readonly TokenType _tokenType;
 
-        public VidayarAuthorizationAttribute(TokenType tokenType)
+        public LibraryAuthorizationAttribute()
         {
-            _tokenType = tokenType;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -80,22 +73,13 @@ namespace Library.API.Attributes
 
         private IEnumerable<Claim>? GetClaimsBasedOnTokenType(ClaimsIdentity identity)
         {
-            return _tokenType switch
-            {
-                TokenType.Application => [
+            return [
                     new Claim("UserId", identity.FindFirst("UserId")?.Value),
                     new Claim("FirstName", identity.FindFirst("FirstName")?.Value),
                     new Claim("LastName", identity.FindFirst("LastName")?.Value),
                     new Claim("Username", identity.FindFirst("Username")?.Value),
                     new Claim("Email", identity.FindFirst("Email")?.Value)
-                                ],
-                TokenType.AdminPanel => [
-                                    new Claim("AdminId", identity.FindFirst("AdminId")?.Value),
-                    new Claim("Username", identity.FindFirst("Username")?.Value),
-                    new Claim("Email", identity.FindFirst("Email")?.Value)
-                                ],
-                _ => null,
-            };
+                                ];
         }
     }
 }

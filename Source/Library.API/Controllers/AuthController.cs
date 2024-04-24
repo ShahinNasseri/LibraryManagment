@@ -11,20 +11,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.API.Controllers
 {
     [Route("api/[controller]/[action]")]
-    public class AdminAuthController : AdminBaseController
+    public class AuthController : BaseController
     {
-        private IAdminAuthService _adminAuthService { get; set; }
+        private IAuthService _authService { get; set; }
 
-        public AdminAuthController(IAdminAuthService adminAuthService)
+        public AuthController(IAuthService adminAuthService)
         {
-            _adminAuthService = adminAuthService;
+            _authService = adminAuthService;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ApiResult> Login([FromBody] LoginAdminRequest request)
+        public async Task<ApiResult> Login([FromBody] LoginRequest request)
         {
-            Response.Data = await _adminAuthService.Login(request);
+            Response.Data = await _authService.Login(request);
             return Response;
         }
 

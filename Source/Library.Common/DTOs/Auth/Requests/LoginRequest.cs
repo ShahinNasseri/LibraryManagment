@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Common.DTOs.UserAuth.Requests
+namespace Library.Common.DTOs.AdminAuth.Requests
 {
-    public class LoginUserRequest
+    public class LoginRequest
     {
         public string? UsernameEmail { get; set; }
         public string? Password { get; set; }

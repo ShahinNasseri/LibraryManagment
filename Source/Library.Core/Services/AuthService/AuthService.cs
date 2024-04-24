@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 namespace Library.Core.Services
 {
 
-    public partial class AdminAuthService : IAdminAuthService
+    public partial class AuthService : IAuthService
     {
         private readonly IUnitOfWork _uow;
-        private readonly IAdminTokenService _adminTokenService;
+        private readonly ITokenService _adminTokenService;
 
-        public AdminAuthService(IUnitOfWork uow, IAdminTokenService adminTokenService)
+        public AuthService(IUnitOfWork uow, ITokenService adminTokenService)
         {
             _uow = uow;
             _adminTokenService = adminTokenService;

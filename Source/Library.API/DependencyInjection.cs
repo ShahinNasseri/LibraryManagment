@@ -27,7 +27,6 @@ namespace Library.API
     {
         public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<AdminSettings>(configuration.GetSection(nameof(AdminSettings)));
             services.Configure<UserSettings>(configuration.GetSection(nameof(UserSettings)));
 
 
@@ -50,7 +49,7 @@ namespace Library.API
         private static void AddExtraServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<Microsoft.IO.RecyclableMemoryStreamManager>();
-            services.AddJwtAuthentication(appjwtSettings: configuration.GetSection(nameof(UserSettings)).Get<UserSettings>()!.JwtSettings, adminPanelJwtSetting: configuration.GetSection(nameof(AdminSettings)).Get<AdminSettings>()!.JwtSettings);
+            services.AddJwtAuthentication(configuration.GetSection(nameof(UserSettings)).Get<UserSettings>()!.JwtSettings);
         }
 
         private static void AddApiOptions(this IServiceCollection services)
@@ -110,16 +109,17 @@ namespace Library.API
             });
         }
 
-        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings appjwtSettings, JwtSettings adminPanelJwtSetting)
+        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSetting)
         {
-            services.AddAuthentication(options => {
-                options.DefaultScheme = "Application_OR_AdminPanel";
-                options.DefaultChallengeScheme = "Application_OR_AdminPanel";
-
-            }).AddJwtBearer("Application", options =>
+            services.AddAuthentication(options =>
             {
-                var secretKey = Encoding.UTF8.GetBytes(appjwtSettings.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(appjwtSettings.EncryptKey);
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                var secretKey = Encoding.UTF8.GetBytes(jwtSetting.SecretKey);
+                var encryptionKey = Encoding.UTF8.GetBytes(jwtSetting.EncryptKey);
 
                 var validationParameters = new TokenValidationParameters
                 {
@@ -132,39 +132,11 @@ namespace Library.API
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    ValidateAudience = true, //default : false
-                    ValidAudience = appjwtSettings.Audience,
+                    ValidateAudience = true, // default: false
+                    ValidAudience = jwtSetting.Audience,
 
-                    ValidateIssuer = true, //default : false
-                    ValidIssuer = appjwtSettings.Issuer,
-
-                    TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
-                };
-
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = validationParameters;
-            }).AddJwtBearer("AdminPanel", options =>
-            {
-                var secretKey = Encoding.UTF8.GetBytes(adminPanelJwtSetting.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(adminPanelJwtSetting.EncryptKey);
-
-                var validationParameters = new TokenValidationParameters
-                {
-                    ClockSkew = TimeSpan.Zero, // default: 5 min
-                    RequireSignedTokens = true,
-
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
-
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-
-                    ValidateAudience = true, //default : false
-                    ValidAudience = adminPanelJwtSetting.Audience,
-
-                    ValidateIssuer = true, //default : false
-                    ValidIssuer = adminPanelJwtSetting.Issuer,
+                    ValidateIssuer = true, // default: false
+                    ValidIssuer = jwtSetting.Issuer,
 
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
                 };
@@ -172,32 +144,13 @@ namespace Library.API
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = validationParameters;
-            }).AddPolicyScheme("Application_OR_AdminPanel", "Application_OR_AdminPanel", options => {
-                options.ForwardDefaultSelector = context =>
-                {
-                    string authorization = context.Request.Headers[HeaderNames.Authorization];
-                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
-                    {
-                        var token = authorization.Replace("Bearer ", string.Empty);
-                        var isValidAdminPanelToken = IsValidatedToken(adminPanelJwtSetting, token);
-                        var isValidApplicationToken = IsValidatedToken(appjwtSettings, token);
-                        if (isValidAdminPanelToken)
-                            return "AdminPanel";
-
-                        if (isValidApplicationToken)
-                            return "Application";
-                    }
-                    return "AdminPanel";
-                };
             });
-
 
             // Authorization
             services.AddAuthorization(options =>
             {
                 var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
-                    JwtBearerDefaults.AuthenticationScheme,
-                    "AdminPanel");
+                    JwtBearerDefaults.AuthenticationScheme);
                 defaultAuthorizationPolicyBuilder =
                     defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
                 options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();

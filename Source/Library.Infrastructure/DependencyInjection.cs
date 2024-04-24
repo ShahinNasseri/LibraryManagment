@@ -23,8 +23,7 @@ namespace Library.Infrastructure
             services.AddDbContext<AppDbContext>(options =>
                             options.UseMySql(appOptions.MariaDBConnectionString, ServerVersion.AutoDetect(appOptions.MariaDBConnectionString)));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAdminTokenService, AdminTokenService>();
-            services.AddScoped<IUserTokenService, UserTokenService>();
+            services.AddScoped<ITokenService, TokenService>();
 
 
             return services;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.Common.DTOs.AdminManagment.Requests
 {
-    public class RemoveAdminRequest: AdminIdentity
+    public class RemoveAdminRequest: UserIdentity
     {
         public long Id { get; set; }
     }

@@ -8,6 +8,6 @@ namespace Library.Common.DTOs.Commons
 {
     public class UserIdentity
     {
-        public long UserId { get; set; }
+        public long AdminId { get; set; }
     }
 }

@@ -7,9 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\AdminAuth\Responses\" />
+    <Folder Include="DTOs\Auth\Responses\" />
     <Folder Include="DTOs\AdminManagment\Responses\" />
-    <Folder Include="DTOs\UserAuth\Responses\" />
     <Folder Include="Extensions\" />
     <Folder Include="Constants\" />
     <Folder Include="Interfaces\" />

@@ -11,19 +11,19 @@ namespace Library.Core.Services.AdminManagmentService
 {
     public partial class AdminManagmentService
     {
-        private async void RemoveAdminInDatabase(AdminUser admin)
+        private async void RemoveAdminInDatabase(User admin)
         {
-            _uow.Admins.Delete(admin);
+            _uow.Users.Delete(admin);
             var rowEffectedCount = await _uow.CompleteAsync();
             if (rowEffectedCount == 0)
                 throw new CustomOperationFailException("The admin account you are trying to delete does not exist.");
         }
 
-        private async Task<AdminUser> GetAdminById(long adminId)
+        private async Task<User> GetAdminById(long adminId)
         {
             
 
-            var admin = await _uow.Admins.GetByIdAsync(adminId);
+            var admin = await _uow.Users.GetByIdAsync(adminId);
             if (admin is null)
                 throw new CustomInvalidRequestException();
             return admin;

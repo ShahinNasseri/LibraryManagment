@@ -22,7 +22,7 @@ namespace Library.Core.Services.AdminManagmentService
         private async Task InsertAdminUserToDatabase(AddNewAdminRequest request)
         {
             var (hashPassword, passwordSalt) = GenerateHashPassword(request.Password!);
-            var adminModel = new AdminUser()
+            var adminModel = new User()
             {
                 DateCreated = DateTime.UtcNow,
                 Email = request.Email!,
@@ -32,7 +32,7 @@ namespace Library.Core.Services.AdminManagmentService
                 Password = hashPassword,
                 Salt = passwordSalt
             };
-            await _uow.Admins.AddAsync(adminModel);
+            await _uow.Users.AddAsync(adminModel);
             await _uow.CompleteAsync();
         }
 

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Library.Core.Interfaces.Services
 {
-    public interface IAdminAuthService
+    public interface IAuthService
     {
-        Task<AccessTokenModel> Login(LoginAdminRequest request);
+        Task<AccessTokenModel> Login(LoginRequest request);
         Task<bool> IsUsernameUniqueAsync(string username, CancellationToken token);
         Task<bool> IsEmailUniqueAsync(string email, CancellationToken token);
     }

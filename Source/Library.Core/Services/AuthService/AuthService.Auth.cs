@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace Library.Core.Services
 {
-    public partial class AdminAuthService
+    public partial class AuthService
     {
-        public async Task<AccessTokenModel> Login(LoginAdminRequest request)
+        public async Task<AccessTokenModel> Login(LoginRequest request)
         {
             NormalizeCredentials(ref request);
 
-            AdminUser admin = await GetAdminByUsernameOrEmail(request.UsernameEmail!);
+            User admin = await GetAdminByUsernameOrEmail(request.UsernameEmail!);
             AccessTokenModel token = GenerateToken(admin);
             await UpdateAdminRefreshTokenInDatabase(admin, token);
             return token;
         }
 
-        private async Task<AdminUser> GetAdminByUsernameOrEmail(string usernameOrEmail)
+        private async Task<User> GetAdminByUsernameOrEmail(string usernameOrEmail)
         {
-            var admin = await _uow.Admins.GetByEmailAsync(usernameOrEmail);
+            var admin = await _uow.Users.GetByEmailAsync(usernameOrEmail);
 
             if (admin is null)
                 throw new CustomInvalidRequestException("Invalid Login Credentials. Please check your username and password and try again.");
@@ -36,29 +36,29 @@ namespace Library.Core.Services
         /// Convert LoginAdminRequest Model UsernameOrPassword to LowerCase Becuse We Only Store LowerCase Username Or Password
         /// </summary>
         /// <param name="request">LoginAdminRequest With UsernameEmail properties</param>
-        private static void NormalizeCredentials(ref LoginAdminRequest request)
+        private static void NormalizeCredentials(ref LoginRequest request)
         {
             request.UsernameEmail = request.UsernameEmail!.Trim().ToLower();
         }
 
-        private AccessTokenModel GenerateToken(AdminUser admin)
+        private AccessTokenModel GenerateToken(User user)
         {
-            var authenticatedAdmin = new AuthenticatedAdmin()
+            var authenticatedAdmin = new AuthenticatedUser()
             {
-                AdminId = admin.Id,
-                Email = admin.Email,
-                Username = admin.Username,
+                userId = user.Id,
+                Email = user.Email,
+                Username = user.Username,
             };
             var token = _adminTokenService.Generate(authenticatedAdmin);
             return token;
         }
-        private async Task UpdateAdminRefreshTokenInDatabase(AdminUser admin, AccessTokenModel token)
+        private async Task UpdateAdminRefreshTokenInDatabase(User user, AccessTokenModel token)
         {
             if (string.IsNullOrWhiteSpace(token.RefreshToken))
                 throw new CustomArgumentNullException("Refresh Token is not valid");
 
-            admin.RefreshToken = token.RefreshToken;
-            _uow.Admins.Update(admin);
+            user.RefreshToken = token.RefreshToken;
+            _uow.Users.Update(user);
             await _uow.CompleteAsync();
         }
     }
