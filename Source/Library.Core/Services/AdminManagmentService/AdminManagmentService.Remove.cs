@@ -31,7 +31,7 @@ namespace Library.Core.Services.AdminManagmentService
 
         private static void ValidateAdminDeletion(User user, RemoveAdminRequest request)
         {
-            if (user.Id == request.UserId)
+            if (user.Id == request._UserId)
             { 
                 throw new CustomOperationFailException("User cannot delete themselvs");
             }
