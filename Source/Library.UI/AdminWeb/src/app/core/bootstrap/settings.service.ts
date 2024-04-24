@@ -10,7 +10,7 @@ import { AppSettings, AppTheme, defaults } from '../settings';
   providedIn: 'root',
 })
 export class SettingsService {
-  private readonly key = 'ng-matero-settings';
+  private readonly key = 'library-managment-settings';
 
   private readonly store = inject(LocalStorageService);
   private readonly mediaMatcher = inject(MediaMatcher);
@@ -27,7 +27,7 @@ export class SettingsService {
 
   options: AppSettings;
 
-  themeColor: Exclude<AppTheme, 'auto'> = 'light';
+  themeColor: Exclude<AppTheme, 'auto'> = 'dark';
 
   constructor() {
     const storedOptions = this.store.get(this.key);

@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
     const handler = () => {
-      if (request.url.includes('/auth/logout')) {
+      if (request.url.includes('/auth/login')) {
         this.router.navigateByUrl('/auth/login');
       }
 

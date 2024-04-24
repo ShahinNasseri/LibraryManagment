@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { SettingsService } from '@core';
 import { PageHeaderComponent } from '@shared';
 
 @Component({
@@ -12,5 +13,6 @@ import { PageHeaderComponent } from '@shared';
 export class DashboardComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }

@@ -7,13 +7,13 @@
     <mat-card-content>
       <form class="form-field-full" [formGroup]="loginForm">
         <mat-form-field appearance="outline">
-          <mat-label>{{'username' | translate}}: ng-matero</mat-label>
-          <input matInput placeholder="ng-matero" formControlName="username" required>
+          <mat-label>{{'username' | translate}}</mat-label>
+          <input matInput placeholder="username" formControlName="username" required>
           @if (username.invalid) {
             <mat-error>
               @if (username.errors?.required) {
                 <span>{{'please_enter' | translate}}
-                  <strong>ng-matero</strong>
+                  <strong>username</strong>
                 </span>
               }
               @if (username.errors?.remote) {
@@ -24,14 +24,14 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>{{'password' | translate}}: ng-matero</mat-label>
-          <input matInput placeholder="ng-matero" type="password"
+          <mat-label>{{'password' | translate}}</mat-label>
+          <input matInput placeholder="password" type="password"
             formControlName="password" required>
           @if (password.invalid) {
             <mat-error>
               @if (password.errors?.required) {
                 <span>{{'please_enter' | translate}}
-                  <strong>ng-matero</strong>
+                  <strong>password</strong>
                 </span>
               }
               @if (password.errors?.remote) {
