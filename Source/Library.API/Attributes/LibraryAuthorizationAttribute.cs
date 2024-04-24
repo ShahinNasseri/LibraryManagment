@@ -66,20 +66,22 @@ namespace Library.API.Attributes
                 UserId = userId,
                 FirstName = identity.FindFirst("FirstName")?.Value,
                 LastName = identity.FindFirst("LastName")?.Value,
-                Email = identity.FindFirst("Email")?.Value,
-                Username = identity.FindFirst("Username")?.Value,
+                Email = identity.FindFirst("Email")!.Value,
+                Username = identity.FindFirst("Username")!.Value,
+                IsAdmin = bool.Parse(identity.FindFirst("IsAdmin")!.Value)
             };
         }
 
         private IEnumerable<Claim>? GetClaimsBasedOnTokenType(ClaimsIdentity identity)
         {
             return [
-                    new Claim("UserId", identity.FindFirst("UserId")?.Value),
-                    new Claim("FirstName", identity.FindFirst("FirstName")?.Value),
-                    new Claim("LastName", identity.FindFirst("LastName")?.Value),
-                    new Claim("Username", identity.FindFirst("Username")?.Value),
-                    new Claim("Email", identity.FindFirst("Email")?.Value)
-                                ];
+                    new Claim("UserId", identity.FindFirst("UserId")!.Value),
+                    new Claim("FirstName", identity.FindFirst("FirstName")!.Value),
+                    new Claim("LastName", identity.FindFirst("LastName")!.Value),
+                    new Claim("Username", identity.FindFirst("Username")!.Value),
+                    new Claim("Email", identity.FindFirst("Email")!.Value),
+                    new Claim("", identity.FindFirst("IsAdmin")!.Value),
+                  ];
         }
     }
 }

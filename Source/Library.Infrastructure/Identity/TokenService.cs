@@ -38,7 +38,7 @@ namespace Library.Infrastructure.Identity
             var securityToken = CreateJwtSecurityToken(claims, signingCredentials, encryptingCredentials);
             var refreshToken = GenerateRefreshToken();
 
-            return new AccessTokenModel(securityToken, refreshToken, user.userId);
+            return new AccessTokenModel(securityToken, refreshToken, user.UserId);
         }
 
         private JwtSecurityToken CreateJwtSecurityToken(IEnumerable<Claim> claims, SigningCredentials signingCredentials, EncryptingCredentials encryptingCredentials)
@@ -108,14 +108,15 @@ namespace Library.Infrastructure.Identity
             }
         }
 
-        private IEnumerable<Claim> GetClaims(AuthenticatedUser admin)
+        private IEnumerable<Claim> GetClaims(AuthenticatedUser user)
         {
             // Assume this might involve async operations (e.g., database access)
             return
             [
-                new Claim("UserId", admin.userId.ToString()),
-                new Claim("Username", admin.Username),
-                new Claim("Email", admin.Email)
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim("Username", user.Username),
+                new Claim("Email", user.Email),
+                new Claim("IsAdmin", user.IsAdmin.ToString())
             ];
         }
 

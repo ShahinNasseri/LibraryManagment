@@ -1,6 +1,7 @@
 ﻿using Library.API.Models;
 using Library.Common.DTOs.AdminAuth.Requests;
 using Library.Common.DTOs.AdminManagment.Requests;
+using Library.Common.DTOs.Auth.Requests;
 using Library.Core.Interfaces.Services;
 using Library.Core.Services;
 using Library.Core.Services.AdminManagmentService;
@@ -25,6 +26,14 @@ namespace Library.API.Controllers
         public async Task<ApiResult> Login([FromBody] LoginRequest request)
         {
             Response.Data = await _authService.Login(request);
+            return Response;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ApiResult> Register([FromBody] RegisterRequest request)
+        {
+            Response.Data = await _authService.Register(request);
             return Response;
         }
 

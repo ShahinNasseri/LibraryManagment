@@ -7,13 +7,13 @@
     <mat-card-content>
       <form class="form-field-full" [formGroup]="loginForm">
         <mat-form-field appearance="outline">
-          <mat-label>{{'username' | translate}}</mat-label>
-          <input matInput placeholder="username" formControlName="username" required>
+          <mat-label>{{'username or email' | translate}}</mat-label>
+          <input matInput placeholder="username or email" formControlName="username" required>
           @if (username.invalid) {
             <mat-error>
               @if (username.errors?.required) {
                 <span>{{'please_enter' | translate}}
-                  <strong>username</strong>
+                  <strong>username or email</strong>
                 </span>
               }
               @if (username.errors?.remote) {

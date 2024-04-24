@@ -33,5 +33,7 @@ namespace Library.API.Models
         /// Email of user
         /// </summary>
         public string Email { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

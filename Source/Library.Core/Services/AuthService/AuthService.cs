@@ -1,4 +1,5 @@
 ﻿using Library.Common.DTOs.AdminAuth.Requests;
+using Library.Common.DTOs.Auth.Requests;
 using Library.Common.Exceptions;
 using Library.Common.Helpers;
 using Library.Common.Models.Identity;
@@ -26,5 +27,36 @@ namespace Library.Core.Services
             _adminTokenService = adminTokenService;
         }
 
+        public async Task<AccessTokenModel> Login(LoginRequest request)
+        {
+            NormalizeCredentials(ref request);
+
+            User admin = await EnsureUserExistsByUsernameOrEmailAsync(request.UsernameEmail!);
+            ValidatePassword(request, admin);
+
+            AccessTokenModel token = GenerateToken(admin);
+            await UpdateUserRefreshTokenInDatabase(admin, token);
+            return token;
+        }
+
+        public async Task<AccessTokenModel> Register(RegisterRequest request)
+        {
+            try
+            {
+                await _uow.BeginTransactionAsync();
+
+                NormalizeCredentials(ref request);
+                var user = await InsertUserIntoDatabase(request);
+                AccessTokenModel token = GenerateToken(user);
+                await UpdateUserRefreshTokenInDatabase(user, token);
+                await _uow.CommitAsync();
+                return token;
+            }
+            catch (Exception)
+            {
+                await _uow.RollbackAsync();
+                throw;
+            }
+        }
     }
 }
