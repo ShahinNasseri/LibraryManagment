@@ -10,5 +10,7 @@ namespace Library.Core.Domain.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
     }
 }

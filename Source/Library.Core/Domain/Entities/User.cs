@@ -19,6 +19,8 @@ namespace Library.Core.Domain.Entities
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public bool IsAdmin { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
 
     }
 }
