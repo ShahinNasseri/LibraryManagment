@@ -29,11 +29,16 @@ namespace Library.Core.Services.AdminManagmentService
             return admin;
         }
 
-        private static void ValidateAdminDeletion(RemoveAdminRequest request)
+        private static void ValidateAdminDeletion(User user, RemoveAdminRequest request)
         {
-            if (request.Id == request.AdminId)
+            if (user.Id == request._UserId)
             { 
-                throw new CustomOperationFailException("User cannot delete themself");
+                throw new CustomOperationFailException("User cannot delete themselvs");
+            }
+
+            if(user.IsAdmin == false)
+            {
+                throw new CustomOperationFailException("The Selected User Is not admin");
             }
         }
     }

@@ -1,22 +1,16 @@
-﻿using FluentValidation;
-using Library.Common.DTOs.Commons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Common.DTOs.AdminManagment.Requests
+namespace Library.Common.DTOs.Auth.Requests
 {
-    public class AddNewAdminRequest: UserIdentity
+    public class RegisterRequest
     {
         public string? FullName { get; set; }
         public string? Email { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
-        public bool? IsActive { get; set; }
     }
-
-
-
 }

@@ -23,12 +23,20 @@ namespace Library.Core.Services.AdminManagmentService
         public async Task AddNewAdmin(AddNewAdminRequest request)
         {
             NormalizeCredentials(ref request);
+            AccessValidation(request);
             await InsertAdminUserToDatabase(request);
         }
+
+        private static void AccessValidation(AddNewAdminRequest request)
+        {
+            if (request._UserIsAdmin == false)
+                throw new CustomInvalidRequestException();
+        }
+
         public async Task RemoveAdmin(RemoveAdminRequest request)
         {
-            ValidateAdminDeletion(request);
             var admin = await GetAdminById(request.Id);
+            ValidateAdminDeletion(admin, request);
             RemoveAdminInDatabase(admin);
         }
     }

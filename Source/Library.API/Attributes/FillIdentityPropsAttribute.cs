@@ -19,14 +19,15 @@ namespace Library.API.Attributes
                 foreach (var prop in props)
                 {
                     // Check if the principal is a UserPrincipal and the property name is "UserId"
-                    if (userPrincipal != null && prop.Name.ToLower() == "userid")
+                    if (userPrincipal != null && prop.Name.ToLower() == "_userid")
                     {
                         prop.SetValue(requestModel, userPrincipal.UserId);
                     }
-                    // Check if the principal is an AdminPrincipal and the property name is "AdminId"
-                    else if (adminPrincipal != null && prop.Name.ToLower() == "adminid")
+
+                    // Check if the principal is a UserPrincipal and the property name is "userisAdmin"
+                    if (userPrincipal != null && prop.Name.ToLower() == "_userisadmin")
                     {
-                        prop.SetValue(requestModel, adminPrincipal.AdminId);
+                        prop.SetValue(requestModel, userPrincipal.IsAdmin);
                     }
                 }
 

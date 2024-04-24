@@ -17,7 +17,6 @@ namespace Library.API.Controllers
             _adminManagmentService = adminManagmentService;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<ApiResult> Insert([FromBody] AddNewAdminRequest request)
         {

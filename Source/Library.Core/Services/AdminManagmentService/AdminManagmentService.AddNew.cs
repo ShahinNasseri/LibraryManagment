@@ -29,6 +29,7 @@ namespace Library.Core.Services.AdminManagmentService
                 Username = request.Username!,
                 FullName = request.FullName!,
                 IsActive = request.IsActive ?? true,
+                IsAdmin = true,
                 Password = hashPassword,
                 Salt = passwordSalt
             };
