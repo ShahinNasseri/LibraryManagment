@@ -1,0 +1,18 @@
+// @import "gridstack/dist/gridstack.min.css";
+
+.grid-stack-item{
+  padding: 10px !important;
+}
+
+
+.grid-stack-item-content {
+  text-align: center;
+}
+
+.grid-stack {
+  display: block !important;
+  overflow: hidden !important;
+  height: 100%;
+  min-height: 100%;
+  background-color: #e2e4ea;
+}

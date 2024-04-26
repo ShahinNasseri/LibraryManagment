@@ -90,9 +90,17 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/gridstack/dist/gridstack.css",
+              "node_modules/gridstack/dist/gridstack-extra.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
+              "node_modules/ag-grid-community/styles/ag-grid.min.css",
+              "node_modules/ag-grid-community/styles/ag-theme-alpine.css"
             ],
-            "scripts": []
+            "scripts": [  
+              "node_modules/gridstack/dist/gridstack-all.js"
+              ]
           }
         },
         "lint": {

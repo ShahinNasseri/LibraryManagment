@@ -1,0 +1,15 @@
+<div class="ui-ltr" dir="ltr" class="d-inline">
+  <button
+    pButton
+    pRipple
+    type="button"
+    iconPos="right"
+    [icon]="icon"
+    [label]="label"
+    [class]="className"
+    (click)="onClick.emit($event)"
+    [loading]="isLoading"
+    [disabled]="disabled"
+    [type]="type"
+  ></button>
+</div>

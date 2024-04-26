@@ -27,7 +27,7 @@ export class SettingsService {
 
   options: AppSettings;
 
-  themeColor: Exclude<AppTheme, 'auto'> = 'dark';
+  themeColor: Exclude<AppTheme, 'auto'> = 'light';
 
   constructor() {
     const storedOptions = this.store.get(this.key);
@@ -73,7 +73,6 @@ export class SettingsService {
 
   setTheme() {
     this.themeColor = this.getThemeColor();
-
     if (this.themeColor === 'dark') {
       this.htmlElement.classList.add('theme-dark');
     } else {

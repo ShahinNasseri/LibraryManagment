@@ -1,0 +1,47 @@
+.dx-datagrid-rowsview .dx-row > td, .dx-datagrid-rowsview .dx-row > tr > td {
+    background-color: transparent;
+  }
+  
+  .dx-datagrid .dx-row-alt > td, .dx-datagrid .dx-row-alt > tr > td {
+    background-color: #efefef;
+  }
+  
+  .dx-datagrid-rowsview .dx-row-focused.dx-data-row .dx-command-edit:not(.dx-focused) .dx-link,
+  .dx-datagrid-rowsview .dx-row-focused.dx-data-row > td:not(.dx-focused),
+  .dx-datagrid-rowsview .dx-row-focused.dx-data-row > tr > td:not(.dx-focused) {
+    background-color: #47b4e8!important;
+  }  
+  
+  
+  .dx-grid-component {
+    display: block;
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+  
+  
+  .column-content {
+    z-index: 100;
+    background: #f9f9f9;
+    height: 100%;
+    border-top: 0.4px solid #cecece;
+    border-right: 0.4px solid #cecece;
+    border-left: 0.4px solid #cecece;
+    width: 350px;
+    max-width: 80% !important;
+    /*min-width: 300px;*/
+    position: absolute;
+    overflow: hidden;
+    direction: ltr;
+    left: 20px;
+  }
+  
+  .hide-scrollbar {
+    overflow: auto;
+  }
+  
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  
+  

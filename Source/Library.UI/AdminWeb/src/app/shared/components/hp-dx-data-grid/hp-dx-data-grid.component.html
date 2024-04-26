@@ -1,0 +1,128 @@
+<div class="w-100 h-100">
+    <dx-data-grid 
+    #element
+    ngDefaultControl
+    [id]="id"
+    class="dx-grid-component"
+    [(ngModel)]="ngModel"
+    [ngModelOptions]="ngModelOptions"
+    [dataSource]="dataSource"
+    [keyExpr]="keyExpr"
+    [columns]="columns"
+    [allowColumnReordering]="allowColumnReordering"
+    [allowColumnResizing]="allowColumnResizing"
+    [cacheEnabled]="cacheEnabled"
+    [cellHintEnabled]="cellHintEnabled"
+    [columnAutoWidth]="columnAutoWidthValue"
+    [columnChooser]="columnChooser"
+    [columnFixing]="columnFixing"
+    [columnHidingEnabled]="columnHidingEnabled"
+    [columnResizingMode]="columnResizingMode"
+    [disabled]="disabled"
+    [elementAttr]="elementAttr"
+    [errorRowEnabled]="errorRowEnabled"
+    [export]="export"
+    [filterPanel]="filterPanel"
+    [filterRow]="filterRow"
+    [focusedRowEnabled]="focusedRowEnabled"
+    [grouping]="grouping"
+    [groupPanel]="groupPanel"
+    [headerFilter]="headerFilter"
+    [height]="height"
+    [highlightChanges]="highlightChanges"
+    [loadPanel]="loadPanel"
+    [noDataText]="noDataText"
+    [remoteOperations]="remoteOperations"
+    [rowAlternationEnabled]="rowAlternationEnabled"
+    [rtlEnabled]="_rtlEnabled"
+    [scrolling]="scrolling"
+    [searchPanel]="searchPanel"
+    [selection]="selection"
+    [showBorders]="showBorders"
+    [showColumnHeaders]="showColumnHeaders"
+    [showColumnLines]="showColumnLines"
+    [showRowLines]="showRowLines"
+    [sorting]="sorting"
+    [stateStoring]="stateStoring"
+    [tabIndex]="tabIndex"
+    [twoWayBindingEnabled]="twoWayBindingEnabled"
+    [pager]="pager"
+    [visible]="visible"
+    [width]="width"
+    [wordWrapEnabled]="wordWrapEnabled"
+    [selectedRowKeys]="selectedRowKeysValue"
+    [rowDragging]="rowDragging"
+    (pagingChange)="onPagingChange.emit($event)"
+    (sortingChange)="onSortingChange.emit($event)"
+    (onContentReady)="onContentReadyInner($event)"
+    (onContextMenuPreparing)="onContextMenuPreparing($event)"
+    (onCellPrepared)="onCellPrepared.emit($event)"
+    (onCellClick)="onCellClickExtra($event)"
+    (onCellDblClick)="onCellDblClick.emit($event)"
+    (onDisposing)="onDisposing.emit($event)"
+    (onInitialized)="onInitialized.emit($event)"
+    (onKeyDown)="onKeyDown.emit($event)"
+    (onOptionChanged)="onOptionChangedExtra($event)"
+    (onRowClick)="onRowClick.emit($event)"
+    (onRowDblClick)="onRowDblClick.emit($event)"
+    (onExported)="onExported.emit($event)"
+    (onEditorPreparing)="onEditorPreparing.emit($event)"
+    (dataSourceChange)="dataSourceChangeExtra($event)"
+    (onSelectionChanged)="onSelectionChanged.emit($event)"
+    (onToolbarPreparing)="onToolbarPreparing.emit($event)">
+<!--deletedItemIs  [focusedRowKey]="focusedRowKey"-->
+<!--
+[paging]="paging"-->
+
+<div *ngFor="let item of columns">
+<dxi-column [dataField]="item.dataField" [caption]="item.caption" [sortOrder]="item.sortOrder" [dataType]="item.dataType"
+      [groupIndex]="item.groupIndex" [visibleIndex]="item.visibleIndex" [fixedPosition]="item.fixedPosition"
+      [allowSorting]="item.allowSorting" [width]="item.width" [visible]="item.visible" [cellTemplate]="item.cellTemplate"
+      [fixed]="item.fixed" [alignment]="item.alignment" [allowFixing]="item.allowFixing" [allowHiding]="item.allowHiding">
+
+
+<div *dxTemplate="let cell of 'condition'" (click)="onConditionClickExtra($event,cell)">
+<div [innerHTML]="cell | checkCondition: conditions">
+
+</div>
+</div>
+
+<div *dxTemplate="let cell of 'image'">
+<img [src]="cell.data[cell.column.dataField] | safeBase64ImageProcess" />
+</div>
+
+
+<div *dxTemplate="let cell of 'currency'">
+{{cell.data[cell.column.dataField] | digiSeparator}}
+</div>
+
+</dxi-column>
+</div>
+
+<dxo-paging *ngIf="_pagingEnabled"
+    [pageSize]="_pagingSize"
+    [pageIndex]="pagingIndex">
+<!-- Shows the second page -->
+</dxo-paging>
+<!--<dxo-scrolling *ngIf="isShowScroll" mode="virtual"></dxo-scrolling>-->
+
+
+<dxo-editing *ngIf="editOnGrid"
+     mode="row"
+     [allowUpdating]="true"
+     [allowDeleting]="true"
+     [allowAdding]="true"
+     [confirmDelete]="true"
+     [useIcons]="true"
+     [texts]="{deleteRow:'حذف',editRow:'ویرایش',saveRowChanges:'ثبت',cancelRowChanges:'انصراف'}">
+</dxo-editing>
+
+</dx-data-grid>
+
+<hp-dx-context-menu *ngIf="id" ngDefaultControl
+          [dataSource]="contextMenuDataSource"
+          [width]="200"
+          [target]="'#' + id"
+          (onItemClick)="onContextMenuGridClick($event)">
+</hp-dx-context-menu>
+</div>

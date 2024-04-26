@@ -1,0 +1,71 @@
+<div class="container" style="padding: 20px; display: flex;flex-direction: column;padding-bottom: 10px;">
+  <div style="width: 100%;">
+    <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+      <label for="prompt">Enter Prompt:</label>
+      <span class="history-button" (click)="onHistoryButtonClick()">
+        <i class="fa fa-history"></i>
+      </span>
+    </div> 
+    <hp-textarea id="prompt" [name]="'prompt'" ngDefaultControl [(ngModel)]="prompt" style="width: 100%;"></hp-textarea>
+    <div style="display: flex;align-items: center;flex-direction: row;float: left;">
+      <hp-button (onClick)="getChatCompletion()" [label]="'Get Chat Completion'"></hp-button>
+      <hp-checkbox style="margin-left: 10px;" type="checkbox" id="checkbox" [name]="'showprompt'" ngDefaultControl  [label]="'Prompt'" [(ngModel)]="showPrompt"></hp-checkbox>
+      <hp-checkbox style="margin-left: 10px;" type="checkbox" id="checkbox" [name]="'grid'" ngDefaultControl [label]="'Grid'" [(ngModel)]="showDataGrid"></hp-checkbox>
+      <hp-checkbox style="margin-left: 10px;" type="checkbox" id="checkbox" [name]="'pie'" ngDefaultControl [label]="'Pie Chart'" [(ngModel)]="showPieChart"></hp-checkbox>
+      <hp-checkbox style="margin-left: 10px;" type="checkbox" id="checkbox" [name]="'bar'" ngDefaultControl  [label]="'Bar Chart'" [(ngModel)]="showBarChart"></hp-checkbox>
+    </div>
+
+    <div style="display: inline;float: right;">
+      <label *ngIf="showTableDropDown" for="tableDropdown">Table:</label>
+      <hp-dropdown ngDefaultControl  *ngIf="showTableDropDown" [ngModel]="selectedTable" [name]="'tableDropdown'" id="tableDropdown" [options]="tableDatasource"
+        (ngModelChange)="onTableDropdownChange($event)" [optionLabel]="'key'" [optionValue]="'key'">
+
+      </hp-dropdown>
+
+      <label for="dbdropdown">Database:</label>
+      <hp-dropdown ngDefaultControl  id="dbdropdown" [name]="'dbdropdown'" [ngModel]="selectedDatabase" [options]="databaseDDatasource" [optionLabel]="'key'" [optionValue]="'key'"
+        (ngModelChange)="onDBDropdownChange($event)">
+
+      </hp-dropdown>
+    </div>
+
+  </div>
+  <div class="response" style="flex: 1;width: 100%;">
+    <ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+      [rowData]="rowData" [suppressRowClickSelection]="true" [defaultColDef]="defaultColDef" [sideBar]="true"
+      (gridReady)="onGridReady($event)"></ag-grid-angular>
+  </div>
+</div>
+
+<p-dialog header="History" [(visible)]="showHistoryDialog" [style]="{width: '50vw'}">
+  <div class="scrollable-div">
+    <div *ngFor="let chat of chatHistory" (click)="onChatInHistoryClick(chat)" class="question" >{{chat.question}} - [{{chat.database}}]</div>
+</div>
+</p-dialog>
+
+
+<p-dialog header="Result" [(visible)]="showDialog" [style]="{width: '50vw'}">
+  <div style="display: flex;flex-direction: column;">
+    <div *ngIf="showPrompt">{{currentChatgptResopnse.prompt}}</div>
+    <br />
+    <hr *ngIf="showPieChart || showPieChart" />
+    <div  style="display: flex;justify-content: center;flex-direction: row;">
+      <p-chart *ngIf="showBarChart" type="bar" [data]="barChartData" style="width: 50%;"></p-chart>
+      <p-chart *ngIf="showPieChart" type="pie" [data]="pieChartData" style="width: 50%;"></p-chart>
+    </div>
+    <br />
+    <hr *ngIf="showDataGrid" />
+    <div *ngIf="showDataGrid" style="display: flex;flex-direction: row;justify-content: space-between;">
+      <hp-button (onClick)="exportExcel()" [label]="'Export Excel'"></hp-button>
+      <hp-button (onClick)="exportPdf()" [label]="'Export PDF'"></hp-button>
+      <hp-button (onClick)="exportToJSON()" [label]="'Export JSON'"></hp-button>
+      <hp-button (onClick)="exportCSV()" [label]="'Export CSV'"></hp-button>
+    </div>
+
+    <div *ngIf="showDataGrid" style="flex: 1;">
+      <ag-grid-angular  style="width: 100%; height: 500px;" class="ag-theme-alpine" [columnDefs]="res_columnDefs"
+        [rowData]="res_rowData" [suppressRowClickSelection]="true" [defaultColDef]="res_defaultColDef"
+        (gridReady)="onResGridReady($event)"></ag-grid-angular>
+    </div>
+  </div>
+</p-dialog>

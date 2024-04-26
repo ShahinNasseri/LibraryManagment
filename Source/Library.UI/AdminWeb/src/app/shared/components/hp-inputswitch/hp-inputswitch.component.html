@@ -1,0 +1,9 @@
+<p-inputSwitch
+  [(ngModel)]="ngModel"
+  (ngModelChange)="ngModelChangeExtra($event)"
+  (click)="onClick.emit($event)"
+  (onChange)="onChange.emit($event)"
+  ngDefaultControl
+  [name]="name"
+  [disabled]="disabled"
+></p-inputSwitch>

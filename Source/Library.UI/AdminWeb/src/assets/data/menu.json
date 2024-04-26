@@ -11,6 +11,18 @@
       }
     },
     {
+      "route": "dashboardbuilder",
+      "name": "Users",
+      "type": "link",
+      "icon": "dashboard"
+    },
+    {
+      "route": "gptassistant",
+      "name": "gptAssistant",
+      "type": "link",
+      "icon": "dashboard"
+    },
+    {
       "route": "/",
       "name": "sessions",
       "type": "sub",

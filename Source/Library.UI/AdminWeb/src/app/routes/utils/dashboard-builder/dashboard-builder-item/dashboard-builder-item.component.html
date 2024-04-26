@@ -1,0 +1,27 @@
+
+    <div style="padding: 0px;flex:1; height: 100% !important;" class="wrapper card w-100 h-100" >
+        <div class="card-header" style="width: 100%;">
+            {{ReportTitle}}
+        </div>
+        <div style="flex: 1;" class="card-body">
+            <div style="display: flex;flex-direction: column;height: 100%;">
+                <p-chart *ngIf="ReportType === 'Bar Chart'" type="bar" [height]="'100%'" [width]="'100%'"  [data]="barChartData" style="width: 100%;height: 100%;"></p-chart>
+                <p-chart *ngIf="ReportType === 'Pie Chart'" type="pie" [height]="'100%'" [width]="'100%'" [data]="pieChartData" style="width: 100%;height: 100%;"></p-chart>
+                <p-chart *ngIf="ReportType === 'Doughnut Chart'" type="doughnut" [height]="'100%'" [width]="'100%'" [data]="chartData" style="width: 100%;height: 100%;"></p-chart>
+                <p-chart *ngIf="ReportType === 'PolarArea Chart'" type="polarArea" [height]="'100%'" [width]="'100%'" [data]="chartData" style="width: 100%;height: 100%;"></p-chart>
+                <p-chart *ngIf="ReportType === 'Line Chart'" type="line" [height]="'100%'" [width]="'100%'" [data]="chartData" style="width: 100%;height: 100%;"></p-chart>
+                <div *ngIf="ReportType === 'Grid'" style="display: flex;flex-direction: row;justify-content: space-between;">
+                  <!-- <hp-button (onClick)="exportExcel()" [label]="'Export Excel'"></hp-button>
+                  <hp-button (onClick)="exportPdf()" [label]="'Export PDF'"></hp-button>
+                  <hp-button (onClick)="exportToJSON()" [label]="'Export JSON'"></hp-button>
+                  <hp-button (onClick)="exportCSV()" [label]="'Export CSV'"></hp-button> -->
+                </div>
+            
+                <div *ngIf="ReportType === 'Grid'" style="flex: 1;">
+                  <ag-grid-angular  style="width: 100%; height: 100%;" class="ag-theme-alpine" [columnDefs]="res_columnDefs"
+                    [rowData]="res_rowData" [suppressRowClickSelection]="true" [defaultColDef]="res_defaultColDef"
+                    (gridReady)="onResGridReady($event)"></ag-grid-angular>
+                </div>
+              </div>
+        </div>
+    </div>

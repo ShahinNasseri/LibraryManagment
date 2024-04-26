@@ -1,0 +1,10 @@
+<p-paginator
+  [first]="first"
+  [rows]="rows"
+  [pageLinkSize]="pageLinkSize"
+  [totalRecords]="totalRecords"
+  (onPageChange)="onPageChange.emit($event)"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  [showJumpToPageDropdown]="showJumpToPageDropdown"
+  [showPageLinks]="showPageLinks"
+></p-paginator>
