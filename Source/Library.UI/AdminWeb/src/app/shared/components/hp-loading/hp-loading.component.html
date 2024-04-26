@@ -1,0 +1,22 @@
+<div class="w-100 h-100"  [ngClass]="{ 'position-relative': loadingState }">
+  <div [ngClass]="{ 'content-blur': loadingState }" class="w-100 h-100">
+    <ng-content></ng-content>
+  </div>
+  <div class="loader" *ngIf="loadingState" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+    <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+
+    <!--<div class="loader-center">
+    <div class="bookshelf_wrapper">
+      <ul class="books_list">
+        <li class="book_item_1 first"></li>
+        <li class="book_item_2 second"></li>
+        <li class="book_item_3 third"></li>
+        <li class="book_item_1 fourth"></li>
+        <li class="book_item_2 fifth"></li>
+        <li class="book_item_3 sixth"></li>
+      </ul>
+      <div class="shelf"></div>
+    </div>
+  </div>-->
+  </div>
+</div>

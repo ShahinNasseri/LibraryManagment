@@ -1,0 +1,23 @@
+:host ::ng-deep .p-dropdown {
+    width: 14rem;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-clear-icon {
+    color: #6c6c6c;
+    right: 0.5rem !important;
+    font-weight: bold;
+}
+
+.country-item-value {
+    img.flag {
+        width: 17px;
+    }
+}
+
+p-skeleton {
+    width: 100%;
+}
+
+.p-dropdown-label{
+  font-family: Sahel;
+}

@@ -1,0 +1,54 @@
+
+<p-table dir="ltr"
+         columnResizeMode="expand"
+         [(selection)]="selectedItems"
+         [(contextMenuSelection)]="selectedItem"
+         [value]="dataSource"
+         [columns]="columns"
+         [lazy]="true"
+         [rowHover]="rowHover"
+         [dataKey]="dataKey"
+         [tableStyle]="{ 'min-width': '75rem', height: '100%', width: '100%' }"
+         [resizableColumns]="resizableColumns"
+         [selectAll]="selectAll"
+         [paginator]="true"
+         [rows]="pageSize"
+         [totalRecords]="totalCount"
+         [loading]="loading"
+         [contextMenu]="cm"
+         [contextMenuSelectionMode]="contextMenuSelectionMode"
+         [globalFilterFields]="globalFilterFields"
+         (selectionChange)="onSelectionChange($event)"
+         (selectAllChange)="onSelectAllChange($event)"
+         (onLazyLoad)="loadData($event)">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 4rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pResizableColumn
+          style="text-align: right"
+          *ngFor="let column of columns"
+          [style.width]="
+          column.width === null
+            ? 'auto !important'
+            : column.width + 'px !important'"
+          [pSortableColumn]="column.field">
+        {{ column.header }} <p-sortIcon [field]="column.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item let-columns="columns">
+    <tr [pContextMenuRow]="item">
+      <td>
+        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+      </td>
+      <td style="text-align: right" *ngFor="let col of columns">
+        {{ item[col.field] }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<p-contextMenu #cm [model]="menuItems" appendTo="body"></p-contextMenu>

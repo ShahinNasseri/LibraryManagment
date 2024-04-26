@@ -1,0 +1,25 @@
+<dx-context-menu #element
+                 [dataSource]="dataSource"
+                 [width]="width"
+                 [target]="target"
+                 [disabled]="disabled"
+                 [position]="position"
+                 [animation]="animation"
+                 (onHidden)="onHidden.emit($event)"
+                 (onShowing)="onShowing.emit($event)"
+                 (onShown)="onShown.emit($event)"
+                 (onDisposing)="onDisposing.emit($event)"
+                 (onPositioning)="onPositioning.emit($event)"
+                 (onItemContextMenu)="onSelectedItemChange.emit($event)"
+                 (onItemClick)="onItemClick.emit($event)">
+
+  <div class="fa-context-menu-item" *dxTemplate="let e of 'item'">
+    <div *ngIf="e.html == null" style="text-align: right;padding: 2px;">
+      <i [ngClass]="e.icon" style="font-size: 14px;"></i>
+      {{e.text}}
+    </div>
+    <div *ngIf="e.html != null" style="text-align: right;padding: 2px;" [innerHTML]="e.html">
+
+    </div>
+  </div>
+</dx-context-menu>

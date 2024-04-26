@@ -1,0 +1,10 @@
+<p-dropdown [(ngModel)]="ngModel"
+            [optionValue]="optionValue"
+            (onChange)="onChange.emit($event)"
+            (onFilter)="onFilter.emit()"
+            ngDefaultControl
+            [options]="options"
+            [name]="name"
+            [optionLabel]="optionLabel"
+            [disabled]="disabled"
+            [className]="className"></p-dropdown>

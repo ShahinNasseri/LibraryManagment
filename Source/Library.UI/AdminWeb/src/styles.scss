@@ -5,3 +5,87 @@
 @use 'styles/grid';
 @use 'styles/helpers';
 @use 'styles/plugins';
+
+@import "../src/assets/layout/styles/theme/lara-light-teal/theme.css";
+@import "../src/assets/layout/styles/layout/layout.scss";
+
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+
+@import '../node_modules/gridstack/dist/gridstack.css';
+@import '../node_modules/gridstack/dist/gridstack-extra.css';
+
+.main-font-size-1{
+    font-size: 1rem !important;
+}
+
+.main-font-size-2 {
+  font-size: 1.5rem !important;
+}
+
+.main-font-size-3 {
+  font-size: 2rem !important;
+}
+
+
+  change devexpress global style
+  .dx-widget {
+    font-size: 1rem !important;
+    font-family: Sahel;
+  }
+  Add Persian Font To ngx-toastr Package
+  .toast-title, .toast-message {
+    font-family: Sahel;
+    font-weight: bold !important;
+  }
+  
+  prime ng dialog
+  .p-confirm-dialog-reject .p-button-label, .p-confirm-dialog-accept .p-button-label {
+    padding-right: 10px;
+  }
+  
+  .p-0{
+      padding: 0px !important;
+  }
+  
+  
+  .glass-button {
+    padding: 10px;
+    background-color: #14B8A6;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10%;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+    z-index: -1;
+  }
+  
+  .glass-button:hover {
+    color: #333;
+    background-color: #80efe2ad;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-button:hover::before {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+

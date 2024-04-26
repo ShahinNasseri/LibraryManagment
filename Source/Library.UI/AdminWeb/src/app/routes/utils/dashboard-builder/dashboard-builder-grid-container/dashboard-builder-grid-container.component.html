@@ -1,0 +1,61 @@
+<div style="width: 100%;height: 100%;display: flex;flex-direction:column;padding: 20px;">
+    <div style="padding: 10px;width: 100%;">
+        <hp-button (onClick)="addReport()" [label]="'Add Report'"></hp-button>
+    </div>
+    <div style="flex:1;overflow: auto;">
+        <div class="grid-stack" style="background-color: #f9f9f9;">
+        </div>
+    </div>
+</div>
+
+
+
+<p-dialog header="Add Report" [(visible)]="showDialog" [style]="{width: '50vw'}">
+
+    <div style="display: flex;flex-direction: column;">
+
+        <div style="display: inline;">
+            <label style="padding-right: 5px;">    Report Type :   </label>
+            <hp-dropdown id="dbdropdown" [(ngModel)]="reportType" [options]="reportTypeDatasource"
+                [optionLabel]="'key'" [optionValue]="'key'">
+            </hp-dropdown>
+        </div>
+
+        <br />
+
+        <div style="display: inline;">
+            <label style="padding-right: 5px;">    Report Type :   </label>
+            <hp-dropdown id="reportDatabase" [(ngModel)]="reportDatabase" [options]="databaseDDatasource"
+                [optionLabel]="'key'" [optionValue]="'key'">
+
+            </hp-dropdown>
+        </div>
+        
+
+        <br />
+
+        <div style="display: inline;">
+            <label style="padding-right: 5px;">    Report Type :   </label>
+            <hp-dropdown id="reportDatabase"  [(ngModel)]="reportGptModel" [options]="gptmodelDataSource"
+                [optionLabel]="'key'" [optionValue]="'key'">
+
+            </hp-dropdown>
+        </div>
+        
+
+        <br />
+
+        <label >Report Title : </label>
+        <hp-textarea id="reportTitle" [(ngModel)]="reportTitle" 
+            style="width: 100%;"></hp-textarea>
+
+            <br />
+
+        <label >Report Prompt : </label>
+        <hp-textarea id="reportPrompt" [(ngModel)]="reportPrompt" 
+            style="width: 100%;"></hp-textarea>
+            <br />
+        <hp-button (onClick)="addDashItem()" [label]="'Add To Dashboard'"></hp-button>
+    </div>
+
+</p-dialog>

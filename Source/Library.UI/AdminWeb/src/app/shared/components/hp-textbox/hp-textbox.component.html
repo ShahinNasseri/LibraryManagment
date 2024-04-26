@@ -1,0 +1,16 @@
+
+  <input
+    pInputText
+    [(ngModel)]="ngModel"
+    (ngModelChange)="ngModelChangeExtra($event)"
+    (keydown.enter)="onEnterKeyDown.emit($event)"
+    (blur)="onBlur()"
+    ngDefaultControl
+    [type]="type"
+    [placeholder]="placeholder"
+    [class]="className"
+    [disabled]="disabled"
+    [name]="name"
+    [id]="id"
+  />
+

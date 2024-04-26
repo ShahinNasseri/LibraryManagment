@@ -1,4 +1,5 @@
 ﻿using Library.Core.Domain.Entities;
+using Library.Core.Domain.Repositories;
 using Library.Core.Interfaces;
 using Library.Core.Interfaces.Repositories;
 using Library.Infrastructure.Data.Contexts;
@@ -18,11 +19,22 @@ namespace Library.Infrastructure.Data
         private readonly AppDbContext _context;
         private IDbContextTransaction? _currentTransaction;
         public IUserRepository Users { get; private set; }
+        public IRolePermissionRepository RolePermission { get; private set; }
+        public IPermissionRepository Permissions { get; private set; }
+        public IRoleRepository Roles { get; private set; }
+        public IUserPermissionRepository UserPermissions { get; private set; }
+        public IUserRoleRepository UserRoles { get; private set; }
+
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Users = new UserRepository(context);
+            RolePermission = new RolePermissionRepository(context);
+            Permissions = new PermissionRepository(context);
+            Roles = new RoleRepository(context);
+            UserPermissions = new UserPermissionRepository(context);
+            UserRoles = new UserRoleRepository(context);
             // Initialize other repositories similarly
         }
 

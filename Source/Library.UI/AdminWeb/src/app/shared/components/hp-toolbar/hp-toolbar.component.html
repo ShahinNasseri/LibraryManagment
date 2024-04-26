@@ -1,0 +1,54 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left my-sm-2">
+    <div class="pl-2">
+      <hp-button
+        icon="pi pi-plus"
+        [type]="'success'"
+        pTooltip="جدید"
+        (onClick)="onInsertClick.emit()"
+      ></hp-button>
+    </div>
+    <div class="pl-2">
+      <hp-button
+        icon="pi pi-file-edit"
+        [type]="'help'"
+        pTooltip="ویرایش"
+        (onClick)="onEditClick.emit()"
+      ></hp-button>
+    </div>
+    <div class="pl-2">
+      <hp-button
+        icon="pi pi-trash"
+        [type]="'danger'"
+        pTooltip="حذف"
+        (onClick)="onDeleteClick.emit()"
+      ></hp-button>
+    </div>
+    <div class="pl-2">
+      <hp-button
+        icon="pi pi-refresh"
+        [type]="'info'"
+        pTooltip="بارگدازی مجدد"
+        (onClick)="onRefreshClick.emit()"
+      ></hp-button>
+    </div>
+  </div>
+  <div class="p-toolbar-group-right">
+    <span class="p-input-icon-left px-2">
+      <i class="pi pi-search"></i>
+      <hp-textbox
+        icon="pi pi-search"
+        [(ngModel)]="ngModel"
+        [placeholder]="'جستجو'"
+        (onEnterKeyDown)="onSearchBoxEnterKeyDown.emit()"
+        ngDefaultControl
+      ></hp-textbox>
+    </span>
+    <hp-button
+      icon="pi pi-search"
+      [type]="'help'"
+      pTooltip="جست و جو"
+      (onClick)="onSearchClick.emit()"
+    ></hp-button>
+  </div>
+</p-toolbar>

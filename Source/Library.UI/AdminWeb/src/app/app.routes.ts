@@ -21,6 +21,8 @@ export const routes: Routes = [
       { path: '403', component: Error403Component },
       { path: '404', component: Error404Component },
       { path: '500', component: Error500Component },
+      { path: 'gptassistant', loadChildren: () => import('./routes/utils/gpt-assistant/gpt-assistant.module').then(m => m.GptAssistantModule) },
+      { path: 'dashboardbuilder', loadChildren: () => import('./routes/utils/dashboard-builder/dashboard-builder.module').then(m => m.DashboardBuilderModule) },
     ],
   },
   {

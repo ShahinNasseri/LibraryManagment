@@ -1,0 +1,22 @@
+<div class="ui-ltr text-right" dir="ltr">
+  <p-inputNumber
+    [(ngModel)]="ngModel"
+    (ngModelChange)="ngModelChangeExtra($event)"
+    ngDefaultControl
+    [name]="name"
+    [placeholder]="placeholder"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [prefix]="suffix"
+    [suffix]="prefix"
+    [tabindex]="tabIndex"
+    [inputStyleClass]="'text-right'"
+    [minFractionDigits]="minFractionDigits"
+    [maxFractionDigits]="maxFractionDigits"
+    [buttonLayout]="buttonLayout"
+    [showButtons]="showButtons"
+    [showClear]="showClear"
+    [disabled]="disabled"
+  ></p-inputNumber>
+</div>

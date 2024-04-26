@@ -1,0 +1,36 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 0px;
+  }
+  
+  .card-header {
+    background-color: #f6f6f6;
+    border-radius: 8px 8px 0 0;
+    padding: 10px;
+  }
+  
+    .card-header h3 {
+      color: #333333;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+  
+  .card-body {
+    padding: 5px;
+    flex: 1 !important;
+    overflow: auto !important
+  }
+  
+  canvas {
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+  

@@ -18,6 +18,7 @@ namespace Library.Infrastructure.Data.Contexts
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,8 +27,6 @@ namespace Library.Infrastructure.Data.Contexts
 
             // Model configuration code
             // User to UserRole Relationship
-            modelBuilder.Entity<UserRole>()
-                .HasKey(ur => new { ur.UserID, ur.RoleID });
             modelBuilder.Entity<UserRole>()
                 .HasOne<User>(ur => ur.User)
                 .WithMany(u => u.UserRoles)
@@ -39,19 +38,16 @@ namespace Library.Infrastructure.Data.Contexts
 
             // Role to RolePermission Relationship
             modelBuilder.Entity<RolePermission>()
-                .HasKey(rp => new { rp.RoleID, rp.PermissionID });
-            modelBuilder.Entity<RolePermission>()
                 .HasOne<Role>(rp => rp.Role)
                 .WithMany(r => r.RolePermissions)
                 .HasForeignKey(rp => rp.RoleID);
+
             modelBuilder.Entity<RolePermission>()
                 .HasOne<Permission>(rp => rp.Permission)
                 .WithMany(p => p.RolePermissions)
                 .HasForeignKey(rp => rp.PermissionID);
 
             // User to UserPermission Relationship
-            modelBuilder.Entity<UserPermission>()
-                .HasKey(up => new { up.UserID, up.PermissionID });
             modelBuilder.Entity<UserPermission>()
                 .HasOne<User>(up => up.User)
                 .WithMany(u => u.UserPermissions)
