@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240424202122_add permissions tables")]
-    partial class addpermissionstables
+    [Migration("20240426100506_add key to Permissions Tables")]
+    partial class addkeytoPermissionsTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,15 +65,23 @@ namespace Library.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Library.Core.Domain.Entities.RolePermission", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PermissionID")
                         .HasColumnType("int");
 
-                    b.HasKey("RoleID", "PermissionID");
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionID");
+
+                    b.HasIndex("RoleID");
 
                     b.ToTable("RolePermissions");
                 });
@@ -128,8 +136,11 @@ namespace Library.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Library.Core.Domain.Entities.UserPermission", b =>
                 {
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PermissionID")
                         .HasColumnType("int");
@@ -138,36 +149,51 @@ namespace Library.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("UserID", "PermissionID");
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("UserPermissions");
                 });
 
             modelBuilder.Entity("Library.Core.Domain.Entities.UserRole", b =>
                 {
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
 
-                    b.HasKey("UserID", "RoleID");
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("UserRole");
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Library.Core.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("Library.Core.Domain.Entities.Permission", "Permission")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("PermissionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Library.Core.Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -177,16 +203,33 @@ namespace Library.Infrastructure.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Library.Core.Domain.Entities.UserPermission", b =>
+                {
+                    b.HasOne("Library.Core.Domain.Entities.Permission", null)
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library.Core.Domain.Entities.User", "User")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Library.Core.Domain.Entities.UserRole", b =>
                 {
                     b.HasOne("Library.Core.Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Library.Core.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -194,6 +237,27 @@ namespace Library.Infrastructure.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Library.Core.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserPermissions");
+                });
+
+            modelBuilder.Entity("Library.Core.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Library.Core.Domain.Entities.User", b =>
+                {
+                    b.Navigation("UserPermissions");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

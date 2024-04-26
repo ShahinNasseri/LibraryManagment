@@ -9,6 +9,7 @@ namespace Library.Core.Domain.Entities
 {
     public class UserRole
     {
+        public int Id { get; set; }
         [ForeignKey("User")]
         public long UserID { get; set; }
         [ForeignKey("Role")]

@@ -62,15 +62,23 @@ namespace Library.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Library.Core.Domain.Entities.RolePermission", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PermissionID")
                         .HasColumnType("int");
 
-                    b.HasKey("RoleID", "PermissionID");
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionID");
+
+                    b.HasIndex("RoleID");
 
                     b.ToTable("RolePermissions");
                 });
@@ -125,8 +133,11 @@ namespace Library.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Library.Core.Domain.Entities.UserPermission", b =>
                 {
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PermissionID")
                         .HasColumnType("int");
@@ -135,26 +146,39 @@ namespace Library.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("UserID", "PermissionID");
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("UserPermissions");
                 });
 
             modelBuilder.Entity("Library.Core.Domain.Entities.UserRole", b =>
                 {
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
 
-                    b.HasKey("UserID", "RoleID");
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("UserRole");
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Library.Core.Domain.Entities.RolePermission", b =>

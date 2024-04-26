@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addpermissionstables : Migration
+    public partial class addkeytoPermissionsTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,6 +60,8 @@ namespace Library.Infrastructure.Data.Migrations
                 name: "UserPermissions",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserID = table.Column<long>(type: "bigint", nullable: false),
                     PermissionID = table.Column<int>(type: "int", nullable: false),
                     PermissionText = table.Column<string>(type: "longtext", nullable: false)
@@ -67,7 +69,19 @@ namespace Library.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPermissions", x => new { x.UserID, x.PermissionID });
+                    table.PrimaryKey("PK_UserPermissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPermissions_Permissions_PermissionID",
+                        column: x => x.PermissionID,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPermissions_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -75,12 +89,14 @@ namespace Library.Infrastructure.Data.Migrations
                 name: "RolePermissions",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleID = table.Column<int>(type: "int", nullable: false),
                     PermissionID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePermissions", x => new { x.RoleID, x.PermissionID });
+                    table.PrimaryKey("PK_RolePermissions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RolePermissions_Permissions_PermissionID",
                         column: x => x.PermissionID,
@@ -97,23 +113,25 @@ namespace Library.Infrastructure.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
+                name: "UserRoles",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserID = table.Column<long>(type: "bigint", nullable: false),
                     RoleID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => new { x.UserID, x.RoleID });
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRole_Roles_RoleID",
+                        name: "FK_UserRoles_Roles_RoleID",
                         column: x => x.RoleID,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRole_Users_UserID",
+                        name: "FK_UserRoles_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -127,9 +145,29 @@ namespace Library.Infrastructure.Data.Migrations
                 column: "PermissionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRole_RoleID",
-                table: "UserRole",
+                name: "IX_RolePermissions_RoleID",
+                table: "RolePermissions",
                 column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPermissions_PermissionID",
+                table: "UserPermissions",
+                column: "PermissionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPermissions_UserID",
+                table: "UserPermissions",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleID",
+                table: "UserRoles",
+                column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_UserID",
+                table: "UserRoles",
+                column: "UserID");
         }
 
         /// <inheritdoc />
@@ -142,7 +180,7 @@ namespace Library.Infrastructure.Data.Migrations
                 name: "UserPermissions");
 
             migrationBuilder.DropTable(
-                name: "UserRole");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Permissions");
