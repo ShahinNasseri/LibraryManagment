@@ -6,18 +6,15 @@
 @use 'styles/helpers';
 @use 'styles/plugins';
 
-@import "../src/assets/layout/styles/theme/lara-light-teal/theme.css";
-@import "../src/assets/layout/styles/layout/layout.scss";
-
-@import "../node_modules/primeng/resources/primeng.min.css";
-@import "../node_modules/primeflex/primeflex.scss";
-@import "../node_modules/primeicons/primeicons.css";
-
-@import 'ag-grid-community/styles/ag-grid.css';
-@import 'ag-grid-community/styles/ag-theme-quartz.css';
-
 @import '../node_modules/gridstack/dist/gridstack.css';
 @import '../node_modules/gridstack/dist/gridstack-extra.css';
+
+@import '../node_modules/ag-grid-community/styles/ag-grid.min.css';
+@import '../node_modules/ag-grid-community/styles/ag-theme-alpine.css';
+
+@import "../node_modules/devextreme/dist/css/dx.light.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 
 .main-font-size-1{
     font-size: 1rem !important;
