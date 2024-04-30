@@ -19,6 +19,7 @@ import { AuthService, noSpaceValidator } from '@core';
 import { RegisterRequest } from '@core/api/auth';
 import { MtxButtonModule } from '@ng-matero/extensions/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { error } from 'highcharts';
 import {
   Observable,
   catchError,
@@ -97,7 +98,12 @@ export class RegisterComponent {
       next: res => {
         this.router.navigateByUrl('/');
       },
+      error:(err) =>{
+        console.log(error);
+        this.isSubmitting = false;
+      },
       complete: () => {
+        console.log('complelted');
         this.isSubmitting = false;
       },
     });
