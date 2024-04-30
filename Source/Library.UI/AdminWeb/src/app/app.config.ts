@@ -21,8 +21,6 @@ import { PaginatorI18nService } from '@shared';
 import { routes } from './app.routes';
 import { FormlyConfigModule } from './formly-config.module';
 
-import { LoginService } from '@core/authentication/login.service';
-import { FakeLoginService } from './fake-login.service';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -53,12 +51,6 @@ export const appConfig: ApplicationConfig = {
       FormlyConfigModule.forRoot()
     ),
     { provide: BASE_URL, useValue: environment.baseUrl },
-    // ==================================================
-    // 👇 ❌ Remove it in the realworld application
-    //
-    { provide: LoginService, useClass: FakeLoginService },
-    //
-    // ==================================================
     httpInterceptorProviders,
     appInitializerProviders,
     {

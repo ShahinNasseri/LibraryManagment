@@ -8,7 +8,7 @@ export * from './directives';
 export * from './pipes';
 
 // Services
-export * from './services';
+export * from '../core/general/services';
 
 // Utils
 export * from './utils';

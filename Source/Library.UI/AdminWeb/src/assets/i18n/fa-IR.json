@@ -87,7 +87,8 @@
       "max": "این مقدار باید کمتر از {{number}} باشد",
       "exist": "{{value}} قبلاً وجود داشته است",
       "inconsistent": "ناسازگار با {{value}}",
-      "invalid_email": "ایمیل نامعتبر"
+      "invalid_email": "ایمیل نامعتبر",
+      "noSpace": "{{value}} نمیتواند شامل فضای خالی باشد"
     },
     "paginator": {
       "items_per_page_label": "تعداد آیتم‌ها در صفحه:",
@@ -127,6 +128,7 @@
     "have_no_account": "حساب کاربری ندارید",
     "create_one_account": "اینجا کلیک کنید تا یکی ایجاد کنید",
     "please_enter": "لطفا وارد کنید",
+    "fullname": "نام کامل",
     "username": "نام کاربری",
     "password": "رمز عبور",
     "confirm_password": "تایید رمز عبور",

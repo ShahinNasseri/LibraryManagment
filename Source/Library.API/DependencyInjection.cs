@@ -20,6 +20,11 @@ using Library.API.Validations.AdminAuth.Requests;
 using System;
 using Library.Common.DTOs.AdminAuth.Requests;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using Library.API.Attributes;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
+using Library.API.Validations;
 
 namespace Library.API
 {
@@ -56,6 +61,8 @@ namespace Library.API
         {
             services.AddDirectoryBrowser();
 
+            services.AddCors();
+
             services.Configure<FormOptions>(option =>
             {
                 option.ValueLengthLimit = int.MaxValue;
@@ -63,17 +70,40 @@ namespace Library.API
                 option.MemoryBufferThreshold = int.MaxValue;
             });
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ValidateModelStateAttribute));
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddControllers(options =>
             {
+                options.Filters.Add(new ValidateModelStateAttribute());
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    return new BadRequestObjectResult(context);
+                };
             }).AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
         }
 
+
+
         private static void AddValidatorAndSwaggerOptions(this IServiceCollection services)
         {
-            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationAutoValidation(op => { op.OverrideDefaultResultFactoryWith<CustomResultFactory>(); });
             // Add FV validators
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes:true);
 

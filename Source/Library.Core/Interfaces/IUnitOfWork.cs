@@ -13,7 +13,7 @@ namespace Library.Core.Interfaces
 
         Task BeginTransactionAsync();
         Task CommitAsync();
-        Task<int> CompleteAsync();
+        Task<int> SaveChangesAsync();
         void Dispose();
         Task RollbackAsync();
     }

@@ -2,14 +2,15 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, catchError, iif, map, merge, of, share, switchMap, tap } from 'rxjs';
 import { filterObject, isEmptyObject } from './helpers';
 import { User } from './interface';
-import { LoginService } from './login.service';
 import { TokenService } from './token.service';
+
+import {AuthService as AuthApiService, LoginRequest, RegisterRequest} from '@core/api/auth/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly loginService = inject(LoginService);
+  private readonly authApiService = inject(AuthApiService);
   private readonly tokenService = inject(TokenService);
 
   private user$ = new BehaviorSubject<User>({});
@@ -25,6 +26,15 @@ export class AuthService {
     return new Promise<void>(resolve => this.change$.subscribe(() => resolve()));
   }
 
+  register(request: RegisterRequest){
+    return this.authApiService.register(request).pipe(
+      tap(response => {
+        this.tokenService.set(response.data![0]);
+      }),
+      map(() => this.check())
+    );
+  }
+
   change() {
     return this.change$;
   }
@@ -33,25 +43,27 @@ export class AuthService {
     return this.tokenService.valid();
   }
 
-  login(username: string, password: string, rememberMe = false) {
-    return this.loginService.login(username, password, rememberMe).pipe(
-      tap(token => this.tokenService.set(token)),
+  login(request: LoginRequest) {
+    return this.authApiService.login(request).pipe(
+      tap(response => {
+        this.tokenService.set(response.data![0]);
+      }),
       map(() => this.check())
     );
   }
 
   refresh() {
-    return this.loginService
-      .refresh(filterObject({ refresh_token: this.tokenService.getRefreshToken() }))
+    return this.authApiService
+      .refreshToken(filterObject({ refreshToken: this.tokenService.getRefreshToken() }))
       .pipe(
         catchError(() => of(undefined)),
-        tap(token => this.tokenService.set(token)),
+        tap(response => this.tokenService.set(response!.data![0])),
         map(() => this.check())
       );
   }
 
   logout() {
-    return this.loginService.logout().pipe(
+    return this.authApiService.logout().pipe(
       tap(() => this.tokenService.clear()),
       map(() => !this.check())
     );
@@ -62,7 +74,7 @@ export class AuthService {
   }
 
   menu() {
-    return iif(() => this.check(), this.loginService.menu(), of([]));
+    return iif(() => this.check(), this.authApiService.getMenu(), of([]));
   }
 
   private assignUser() {
@@ -73,7 +85,13 @@ export class AuthService {
     if (!isEmptyObject(this.user$.getValue())) {
       return of(this.user$.getValue());
     }
-
-    return this.loginService.me().pipe(tap(user => this.user$.next(user)));
+    return this.authApiService.getUserData().pipe(tap((reponse: any) => {
+      const user: User = {
+        email: reponse.data![0].username,
+        id: reponse.data![0].id,
+        name: reponse.data![0].fullName
+      };
+      this.user$.next(user);
+    }));
   }
 }

@@ -8,7 +8,7 @@ namespace Library.Common.DTOs.Commons
 {
     public class UserIdentity
     {
-        public long _UserId { get; set; }
-        public bool _UserIsAdmin { get; set; }
+        public long? _UserId { get; set; }
+        public bool? _UserIsAdmin { get; set; }
     }
 }

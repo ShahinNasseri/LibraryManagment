@@ -14,7 +14,7 @@ namespace Library.Core.Services.AdminManagmentService
         private async void RemoveAdminInDatabase(User admin)
         {
             _uow.Users.Delete(admin);
-            var rowEffectedCount = await _uow.CompleteAsync();
+            var rowEffectedCount = await _uow.SaveChangesAsync();
             if (rowEffectedCount == 0)
                 throw new CustomOperationFailException("The admin account you are trying to delete does not exist.");
         }

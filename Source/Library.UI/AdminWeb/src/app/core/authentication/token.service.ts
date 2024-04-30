@@ -6,6 +6,7 @@ import { currentTimestamp, filterObject } from './helpers';
 import { Token } from './interface';
 import { BaseToken } from './token';
 import { TokenFactory } from './token-factory.service';
+import { AccessTokenModel } from '@core/api/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +42,14 @@ export class TokenService implements OnDestroy {
     return this.refresh$.pipe(share());
   }
 
-  set(token?: Token) {
-    this.save(token);
+  set(token?: AccessTokenModel) {
+    const tokenModel: Token = {
+      accessToken: token!.accessToken,
+      expiresIn: token!.expiresIn,
+      refreshToken: token?.refreshToken,
+      tokenType: token?.tokenType,
+    };
+    this.save(tokenModel);
 
     return this;
   }
@@ -60,7 +67,7 @@ export class TokenService implements OnDestroy {
   }
 
   getRefreshToken() {
-    return this.token?.refresh_token;
+    return this.token?.refreshToken;
   }
 
   ngOnDestroy(): void {
@@ -73,8 +80,8 @@ export class TokenService implements OnDestroy {
     if (!token) {
       this.store.remove(this.key);
     } else {
-      const value = Object.assign({ access_token: '', token_type: 'Bearer' }, token, {
-        exp: token.expires_in ? currentTimestamp() + token.expires_in : null,
+      const value = Object.assign({ accessToken: '', tokenType: 'Bearer' }, token, {
+        exp: token.expiresIn ? currentTimestamp() + token.expiresIn : null,
       });
       this.store.set(this.key, filterObject(value));
     }

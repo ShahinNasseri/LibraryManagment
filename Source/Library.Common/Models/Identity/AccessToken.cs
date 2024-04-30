@@ -27,5 +27,10 @@ namespace Library.Common.Models.Identity
             RefreshToken = refreshToken;
             Id = id;
         }
+
+        public static implicit operator List<object>(AccessTokenModel v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

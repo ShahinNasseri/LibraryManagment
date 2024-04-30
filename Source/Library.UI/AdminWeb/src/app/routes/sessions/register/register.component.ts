@@ -1,9 +1,12 @@
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
+  AsyncValidatorFn,
+  EmailValidator,
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,8 +14,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService, noSpaceValidator } from '@core';
+import { RegisterRequest } from '@core/api/auth';
+import { MtxButtonModule } from '@ng-matero/extensions/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { error } from 'highcharts';
+import {
+  Observable,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -28,17 +44,24 @@ import { TranslateModule } from '@ngx-translate/core';
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MtxButtonModule,
     TranslateModule,
   ],
 })
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+  isSubmitting: boolean = false;
 
   registerForm = this.fb.nonNullable.group(
     {
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      fullname: ['', [Validators.required]],
+      username: ['', [Validators.required, noSpaceValidator()]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     },
     {
       validators: [this.matchValidator('password', 'confirmPassword')],
@@ -60,5 +83,29 @@ export class RegisterComponent {
         return null;
       }
     };
+  }
+
+  register() {
+    this.isSubmitting = true;
+
+    const registerModel: RegisterRequest = {
+      email: this.registerForm.value.email,
+      fullName: this.registerForm.value.fullname,
+      password: this.registerForm.value.password,
+      username: this.registerForm.value.username,
+    };
+    this.authService.register(registerModel).subscribe({
+      next: res => {
+        this.router.navigateByUrl('/');
+      },
+      error:(err) =>{
+        console.log(error);
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('complelted');
+        this.isSubmitting = false;
+      },
+    });
   }
 }

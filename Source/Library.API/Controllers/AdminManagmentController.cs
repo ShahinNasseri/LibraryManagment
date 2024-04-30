@@ -21,7 +21,7 @@ namespace Library.API.Controllers
         public async Task<ApiResult> Insert([FromBody] AddNewAdminRequest request)
         {
             await _adminManagmentService.AddNewAdmin(request);
-            return Response;
+            return new ApiResult(null);
         }
     }
 }

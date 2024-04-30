@@ -13,6 +13,7 @@ namespace Library.Core.Interfaces.Repositories
         void Delete(User entity);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(long id);
+        Task<User?> GetByRefreshToken(string refreshToken);
         Task<User?> GetByUsernameAsync(string username);
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByEmailOrUsernameAsync(string emailOrUsername);
