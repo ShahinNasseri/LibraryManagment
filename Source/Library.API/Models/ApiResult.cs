@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using System.Text.Json.Serialization;
 
 namespace Library.API.Models
@@ -34,7 +35,7 @@ namespace Library.API.Models
         public string[] Errors { get; set; }
 
         [JsonPropertyName("data")]
-        public List<T> Data { get; set; }
+        public IEnumerable<T> Data { get; set; }
 
         [JsonPropertyName("statusCode")]
         public int? StatusCode { get; set; }
@@ -46,26 +47,9 @@ namespace Library.API.Models
             Errors = errors;
         }
 
-        public async Task ExecuteResultAsync(ActionContext context)
-        {
-            await new OkObjectResult(this).ExecuteResultAsync(context);
-        }
-
-    }
-    public class ApiResult<T, TT> : IActionResult
-    {
-        [JsonPropertyName("errors")]
-        public string[] Errors { get; set; }
-
-        [JsonPropertyName("data")]
-        public T Data { get; set; }
-
-        [JsonPropertyName("statusCode")]
-        public int? StatusCode { get; set; }
-
         public ApiResult(T data, int statusCode = StatusCodes.Status200OK, string[] errors = null)
         {
-            Data = data;
+            Data = [data];
             StatusCode = statusCode;
             Errors = errors;
         }

@@ -12,7 +12,7 @@ import * as XLSX from 'xlsx';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { HttpService } from '@core/ai/http.service';
-import { AlertService } from '@core/general/alert.service';
+import { AlertService } from '@core/general/services/alert.service';
 
 @Component({
   selector: 'hp-gpt-assistant',

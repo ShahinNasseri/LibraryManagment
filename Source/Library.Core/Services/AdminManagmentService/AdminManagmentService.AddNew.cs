@@ -34,7 +34,7 @@ namespace Library.Core.Services.AdminManagmentService
                 Salt = passwordSalt
             };
             await _uow.Users.AddAsync(adminModel);
-            await _uow.CompleteAsync();
+            await _uow.SaveChangesAsync();
         }
 
         private static (string, string) GenerateHashPassword(string password)

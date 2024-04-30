@@ -1,5 +1,6 @@
 ﻿using Library.Common.DTOs.AdminAuth.Requests;
 using Library.Common.DTOs.Auth.Requests;
+using Library.Common.DTOs.Auth.Responses;
 using Library.Common.Exceptions;
 using Library.Common.Helpers;
 using Library.Common.Models.Identity;
@@ -27,17 +28,34 @@ namespace Library.Core.Services
             _adminTokenService = adminTokenService;
         }
 
+ 
         public async Task<AccessTokenModel> Login(LoginRequest request)
         {
             NormalizeCredentials(ref request);
 
-            User admin = await EnsureUserExistsByUsernameOrEmailAsync(request.UsernameEmail!);
-            ValidatePassword(request, admin);
+            User user = await EnsureUserExistsByUsernameOrEmailAsync(request.UsernameEmail!);
+            ValidatePassword(request, user);
 
-            AccessTokenModel token = GenerateToken(admin);
-            await UpdateUserRefreshTokenInDatabase(admin, token);
+            AccessTokenModel token = GenerateToken(user);
+            await UpdateUserRefreshTokenInDatabase(user, token);
             return token;
         }
+
+        public async Task<AccessTokenModel> RefreshToken(RefreshTokenRequest request)
+        {
+            var user = await GetUserByRefreshTokenAsync(request.RefreshToken);
+            ValidateRefreshTokenExpiryTime(user);
+            AccessTokenModel token = GenerateToken(user);
+            await UpdateUserRefreshTokenInDatabase(user, token);
+            return token;
+        }
+      
+        public async Task<GetUserDataResponse> GetUserData(GetUserDataRequest request)
+        {
+            User user = await GetUserById(request._UserId ?? 0);
+            return MapUserForResult(user);
+        }
+
 
         public async Task<AccessTokenModel> Register(RegisterRequest request)
         {
@@ -58,5 +76,12 @@ namespace Library.Core.Services
                 throw;
             }
         }
+
+        public async Task Logout(LogoutRequest request)
+        {
+            var user = await GetUserById(request._UserId ?? 0);
+            await ClearRefreshToken(user);
+        }
+    
     }
 }

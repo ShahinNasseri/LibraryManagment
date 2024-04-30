@@ -9,12 +9,46 @@ using System.Text;
 using System.Threading.Tasks;
 using Library.Common.DTOs.Auth.Requests;
 using Library.Common.Helpers;
+using Library.Common.DTOs.Auth.Responses;
 
 namespace Library.Core.Services
 {
     public partial class AuthService
     {
-     
+
+        private static GetUserDataResponse MapUserForResult(User user)
+        {
+            return new GetUserDataResponse()
+            {
+                FullName = user.FullName,
+                Id = user.Id,
+                Username = user.Username
+            };
+        }
+        private async Task ClearRefreshToken(User user)
+        {
+            user.RefreshToken = null;
+            user.RefreshTokenExpiryTime = null;
+            _uow.Users.Update(user);
+            var count = await _uow.SaveChangesAsync();
+            if (count <= 0)
+                throw new CustomOperationFailException();
+        }
+
+        private static void ValidateRefreshTokenExpiryTime(User user)
+        {
+            if (user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                throw new CustomInvalidRequestException("Your RefreshToken is not valid anymore");
+        }
+
+        private async Task<User> GetUserById(long userId)
+        {
+            var user = await _uow.Users.GetByIdAsync(userId);
+            if (user is null)
+                throw new CustomInvalidRequestException();
+
+            return user;
+        }
 
         private async Task<User> EnsureUserExistsByUsernameOrEmailAsync(string usernameOrEmail)
         {
@@ -41,7 +75,15 @@ namespace Library.Core.Services
                 Salt = passwordSalt
             };
             var user = await _uow.Users.AddAsync(userModel);
-            await _uow.CompleteAsync();
+            await _uow.SaveChangesAsync();
+            return user;
+        }
+
+        private  async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
+        {
+            var user = await _uow.Users.GetByRefreshToken(refreshToken);
+            if (user is null)
+                throw new CustomInvalidRequestException("The provided refresh token is not valid anymore");
             return user;
         }
 
@@ -101,7 +143,7 @@ namespace Library.Core.Services
 
             user.RefreshToken = token.RefreshToken;
             _uow.Users.Update(user);
-            await _uow.CompleteAsync();
+            await _uow.SaveChangesAsync();
         }
     }
 }

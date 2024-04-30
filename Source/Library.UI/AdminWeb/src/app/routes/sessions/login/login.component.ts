@@ -39,8 +39,8 @@ export class LoginComponent {
   isSubmitting = false;
 
   loginForm = this.fb.nonNullable.group({
-    username: ['admin', [Validators.required]],
-    password: ['admin', [Validators.required]],
+    username: ['shahinnk', [Validators.required]],
+    password: ['123456', [Validators.required]],
     rememberMe: [false],
   });
 
@@ -58,12 +58,10 @@ export class LoginComponent {
 
   login() {
     this.isSubmitting = true;
-
     this.auth
-      .login(this.username.value, this.password.value, this.rememberMe.value)
-      .pipe(filter(authenticated => authenticated))
+      .login({password: this.password.value, usernameEmail: this.username.value})
       .subscribe({
-        next: () => {
+        next: (res) => {
           this.router.navigateByUrl('/');
         },
         error: (errorRes: HttpErrorResponse) => {

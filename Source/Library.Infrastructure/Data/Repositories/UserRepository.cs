@@ -59,5 +59,10 @@ namespace Library.Infrastructure.Data.Repositories
         {
             return await _context.Set<User>().FirstOrDefaultAsync(x => x.Email == emailOrUsername || x.Username == emailOrUsername);
         }
+
+        public async Task<User?> GetByRefreshToken(string refreshToken)
+        {
+            return await _context.Set<User>().SingleOrDefaultAsync(x => x.RefreshToken == refreshToken);
+        }
     }
 }

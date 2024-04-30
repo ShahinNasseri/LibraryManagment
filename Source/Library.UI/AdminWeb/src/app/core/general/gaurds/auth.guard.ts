@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../authentication/auth.service';
 
 export const authGuard = (route?: ActivatedRouteSnapshot, state?: RouterStateSnapshot) => {
   const auth = inject(AuthService);

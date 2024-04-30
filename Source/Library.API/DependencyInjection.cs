@@ -56,6 +56,8 @@ namespace Library.API
         {
             services.AddDirectoryBrowser();
 
+            services.AddCors();
+
             services.Configure<FormOptions>(option =>
             {
                 option.ValueLengthLimit = int.MaxValue;

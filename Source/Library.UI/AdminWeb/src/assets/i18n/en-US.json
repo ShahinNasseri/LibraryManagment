@@ -87,7 +87,8 @@
     "max": "This value should be less than {{number}}",
     "exist": "The {{value}} has exists",
     "inconsistent": "Inconsistent with {{value}}",
-    "invalid_email": "Invalid email"
+    "invalid_email": "Invalid email",
+    "noSpace": "{{value}} cannot contains spaces"
   },
   "paginator": {
     "items_per_page_label": "Items per page:",
@@ -127,6 +128,7 @@
   "have_no_account": "Don't have an account",
   "create_one_account": "Click here to create one",
   "please_enter": "Please enter",
+  "fullname": "Fullname",
   "username": "Username",
   "password": "Password",
   "confirm_password": "Confirm Password",

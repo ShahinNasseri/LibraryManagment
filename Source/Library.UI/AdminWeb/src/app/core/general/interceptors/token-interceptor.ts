@@ -23,7 +23,6 @@ export class TokenInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/dashboard');
       }
     };
-
     if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
       return next
         .handle(

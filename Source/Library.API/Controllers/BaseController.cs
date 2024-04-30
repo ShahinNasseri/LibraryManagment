@@ -11,10 +11,8 @@ namespace Library.API.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected new ApiResult Response;
         public BaseController()
         {
-            Response = new ApiResult(null);
         }
     }
 }

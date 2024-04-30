@@ -10,13 +10,47 @@
     <mat-card-content>
       <form class="form-field-full" [formGroup]="registerForm">
         <mat-form-field appearance="outline">
-          <mat-label>{{'username' | translate}}</mat-label>
-          <input matInput formControlName="username" required>
-          @if (registerForm.get('username')?.invalid) {
+          <mat-label>{{'FullName' | translate}}</mat-label>
+          <input matInput formControlName="fullname" required>
+          @if (registerForm.get('fullname')?.invalid) {
             <mat-error>
               <span>{{'validations.required' | translate}}</span>
             </mat-error>
           }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'username' | translate}}</mat-label>
+          <input matInput formControlName="username" required>
+          @if (registerForm.get('username')?.errors?.required) {
+            <mat-error>
+              <span>{{'validations.required' | translate}}</span>
+            </mat-error>
+          }
+
+          @if (registerForm.get('username')?.errors?.noSpace) {
+            <mat-error>
+              <span>{{'validations.noSpace' | translate:{value: ('username' | translate)} }}</span>
+            </mat-error>
+          }
+          
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'email' | translate}}</mat-label>
+          <input matInput formControlName="email" required>
+          @if (registerForm.get('email')?.errors?.required) {
+            <mat-error>
+              <span>{{'validations.required' | translate}}</span>
+            </mat-error>
+          }
+
+          @if (registerForm.get('email')?.errors?.email) {
+            <mat-error>
+              <span>{{'validations.invalid_email' | translate}}</span>
+            </mat-error>
+          }
+  
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -45,9 +79,7 @@
           }
         </mat-form-field>
 
-        <mat-checkbox>{{'read_and_agree' | translate}}</mat-checkbox>
-
-        <button class="w-full m-y-16" mat-raised-button color="primary">
+        <button class="w-full m-y-16"  [disabled]="!!registerForm.invalid" [loading]="isSubmitting"  (click)="register()" mat-raised-button color="primary">
           {{'register' | translate}}
         </button>
 

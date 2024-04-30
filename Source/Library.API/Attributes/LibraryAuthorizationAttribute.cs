@@ -18,8 +18,14 @@ namespace Library.API.Attributes
         {
             if (context.HttpContext.User.Identity is ClaimsIdentity identity)
             {
-                if (HasAllowAnonymous(context) || !IsIdentityValid(identity))
+                if (HasAllowAnonymous(context))
                 {
+                    return;
+                }
+
+                if (!IsIdentityValid(identity))
+                {
+                    context.Result = new UnauthorizedResult();
                     return;
                 }
 
@@ -64,8 +70,6 @@ namespace Library.API.Attributes
             return new UserPrincipal(new ClaimsIdentity(claims, identity.AuthenticationType))
             {
                 UserId = userId,
-                FirstName = identity.FindFirst("FirstName")?.Value,
-                LastName = identity.FindFirst("LastName")?.Value,
                 Email = identity.FindFirst("Email")!.Value,
                 Username = identity.FindFirst("Username")!.Value,
                 IsAdmin = bool.Parse(identity.FindFirst("IsAdmin")!.Value)
@@ -76,8 +80,6 @@ namespace Library.API.Attributes
         {
             return [
                     new Claim("UserId", identity.FindFirst("UserId")!.Value),
-                    new Claim("FirstName", identity.FindFirst("FirstName")!.Value),
-                    new Claim("LastName", identity.FindFirst("LastName")!.Value),
                     new Claim("Username", identity.FindFirst("Username")!.Value),
                     new Claim("Email", identity.FindFirst("Email")!.Value),
                     new Claim("", identity.FindFirst("IsAdmin")!.Value),
