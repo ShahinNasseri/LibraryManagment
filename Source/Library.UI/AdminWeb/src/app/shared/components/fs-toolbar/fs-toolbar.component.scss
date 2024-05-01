@@ -1,0 +1,45 @@
+.dx-rtl.dx-toolbar .dx-toolbar-menu-container,
+.dx-toolbar .dx-toolbar-item {
+  padding: 0px 2px 0 2px !important;
+}
+
+.dx-switch-container {
+  height: 32px !important;
+  margin-top: -4px !important;
+  border-radius: 4px !important;
+}
+
+.dx-switch-handle {
+  height: 28px;
+}
+
+.dx-switch-handle::before {
+  border-radius: 3px !important;
+}
+
+.dx-switch-on {
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.dx-switch-off {
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.dx-switch-on-value .dx-switch-handle::before {
+  background-color: red !important;
+}
+
+.dx-toolbar-item-content > .dx-texteditor {
+  width: 250px;
+}
+
+.dx-toolbar
+  .dx-toolbar-items-container
+  .dx-toolbar-after
+  .dx-toolbar-button
+  .dx-toolbar-item-content
+  .dx-widget.dx-button {
+  height: 32px !important;
+}

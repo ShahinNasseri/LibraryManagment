@@ -1,0 +1,19 @@
+<dx-drop-down-button #element
+                     [ngStyle]="style"
+                     [stylingMode]="stylingMode"
+                     [useSelectMode]="useSelectMode"
+                     [items]="items"
+                     [displayExpr]="displayExpr"
+                     [keyExpr]="keyExpr"
+                     [rtlEnabled]="rtlEnabled"
+                     [hoverStateEnabled]="hoverStateEnabled"
+                     [activeStateEnabled]="activeStateEnabled"
+                     [icon]="icon"
+                     [showArrowIcon]="showArrowIcon"
+                     [width]="width"
+                     [dropDownOptions]="dropDownOptions"
+                     [selectedItemKey]="selectedItemKey"
+                     (onItemClick)="onItemClick.emit($event)"
+                     (onContentReady)="onContentReady.emit($event)"
+                     ></dx-drop-down-button>
+

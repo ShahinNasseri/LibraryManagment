@@ -1,0 +1,214 @@
+<!-- <dx-popup
+  #element
+  [width]="width"
+  [height]="height"
+  [showTitle]="showTitle"
+  [title]="title"
+  [container]="container"
+  [position]="position"
+  [dragEnabled]="dragEnabled"
+  [hideOnOutsideClick]="hideOnOutsideClick"
+  [(visible)]="visible"
+  [showCloseButton]="showCloseButton"
+  [rtlEnabled]="rtlEnabled"
+  [toolbarItems]="toolbarItems"
+  [fullScreen]="fullScreen"
+  [minHeight]="minHeight"
+  [minWidth]="minWidth"
+  [maxWidth]="maxWidth"
+  [deferRendering]="false"
+  (onHiding)="onHiding.emit($event)"
+  (onHidden)="onHiddenInner($event)"
+>
+  <div *dxTemplate="let data of 'content'">
+    <ng-content></ng-content>
+  </div>
+</dx-popup> -->
+
+<dx-popup
+  #element
+  ngDefaultControl
+  [accessKey]="accessKey"
+  [animation]="animation"
+  [container]="container"
+  [contentTemplate]="contentTemplate"
+  [deferRendering]="deferRendering"
+  [disabled]="disabled"
+  [dragEnabled]="dragEnabled"
+  [elementAttr]="elementAttr"
+  [focusStateEnabled]="focusStateEnabled"
+  [fullScreen]="fullScreen"
+  [height]="height"
+  [hint]="hint"
+  [hoverStateEnabled]="hoverStateEnabled"
+  [maxHeight]="maxHeight"
+  [maxWidth]="maxWidth"
+  [minHeight]="minHeight"
+  [deferRendering]="false"
+  [minWidth]="minWidth"
+  [position]="position"
+  [resizeEnabled]="resizeEnabled"
+  [rtlEnabled]="rtlEnabled"
+  [shading]="shading"
+  [shadingColor]="shadingColor"
+  [showCloseButton]="showCloseButton"
+  [showTitle]="showTitle"
+  [tabIndex]="tabIndex"
+  [(fullScreen)]="fullScreen"
+  [title]="title"
+  titleTemplate="titleTemplate"
+  headerTemplate="headerTemplate"
+  [toolbarItems]="toolbarItems"
+  [visible]="visible"
+  [width]="width"
+  (fullScreenChange)="fullScreenChangeExtra($event)"
+  (onContentReady)="onContentReady.emit($event)"
+  (onDisposing)="onDisposingExtra($event)"
+  (onHidden)="onHiddenInner($event)"
+  (onHiding)="onHidingExtra($event)"
+  (onInitialized)="onInitialized.emit($event)"
+  (onOptionChanged)="onOptionChanged.emit($event)"
+  (onResize)="onResize.emit($event)"
+  (onResizeEnd)="onResizeEnd.emit($event)"
+  (onResizeStart)="onResizeStart.emit($event)"
+  (onShowing)="onShowingExtra($event)"
+  (onShown)="onShown.emit($event)"
+  (onTitleRendered)="onTitleRendered.emit($event)"
+>
+  <div
+    *dxTemplate="let data of 'titleTemplate'"
+    style="background: transparent; border: none; height: 40px"
+  >
+    <div *ngIf="menuItems === null" class="flex flex-row flex auto">
+      <div style="padding-top: 10px; width: 80%">
+        <p
+          *ngIf="isShowTitle"
+          style="color: black !important; padding-right: 10px"
+        >
+          {{ title }}
+        </p>
+      </div>
+      <div class="flex-1 d-flex">
+        <div
+          class="w-full flex flex-row flex-auto"
+          style="justify-content: end"
+        >
+          <fs-button
+            [icon]="'expandform'"
+            style="padding-left: 10px"
+            *ngIf="isShowMaximizeButton && checkFullScreen"
+            (onClick)="fullScreenSize()"
+          ></fs-button>
+          <fs-button
+            [icon]="'fullscreen'"
+            style="padding-left: 10px"
+            *ngIf="isShowMaximizeButton && !checkFullScreen"
+            (onClick)="fullScreenSize()"
+          ></fs-button>
+          <fs-button
+            [icon]="'close'"
+            *ngIf="isShowCloseButton"
+            (onClick)="close()"
+          ></fs-button>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+    <div class="row" *ngIf="menuItems !== null">
+      <div class="col-1" style="padding: initial">
+        <dx-menu
+          [dataSource]="menuItems"
+          [showFirstSubmenuMode]="showOperationMenuModes"
+          orientation="vertical"
+          submenuDirection="auto"
+          [rtlEnabled]="true"
+          [hideSubmenuOnMouseLeave]="operationColumnHideMenuOnMouseLeave"
+          (onItemClick)="onMenuItemClick($event)"
+        >
+        </dx-menu>
+      </div>
+      <div class="col-9 pt-2" style="padding: initial">
+        <p *ngIf="isShowTitle">{{ title }}</p>
+      </div>
+      <div class="col-2 d-flex justify-content-end">
+        <div
+          class="btn-toolbar"
+          role="toolbar"
+          aria-label="Toolbar with button groups"
+        >
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <i
+              class="btnMaximize headerDialogButton fa"
+              [ngClass]="{
+                'fa-window-maximize': checkFullScreen === false,
+                'fa-window-restore': checkFullScreen === true
+              }"
+              *ngIf="isShowMaximizeButton"
+              (click)="fullScreenSize()"
+            ></i>
+            <i
+              class="btnClose headerDialogButton fa fa-close"
+              *ngIf="isShowCloseButton"
+              (click)="close()"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *dxTemplate="let data of 'content'"
+    [style.height]="
+      isShowDefaultButton || isShowSuccessButton || isShowNormalButton
+        ? 'calc(100% - 30px)'
+        : '100%'
+    "
+  >
+    <ng-content style="height: 100%"> </ng-content>
+
+    <div
+      *ngIf="isShowDefaultButton || isShowSuccessButton || isShowNormalButton"
+      class="fa-PopupBottonPanel"
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: right;
+          padding: 5px;
+          padding-right: 0px;
+          overflow: hidden;
+        "
+      >
+        <fs-button
+          style="margin-left: 10px"
+          *ngIf="isShowDefaultButton"
+          [type]="defaultButtonType"
+          [text]="defaultButtonTitle"
+          [icon]="defaultButtonIcon"
+          (onClick)="defaultButtonOnClick.emit(false)"
+          ngdefaultcontrol
+        ></fs-button>
+        <fs-button
+          style="margin-left: 10px"
+          *ngIf="isShowSuccessButton"
+          [type]="successButtonType"
+          [text]="successButtonTitle"
+          [icon]="successButtonIcon"
+          (onClick)="successButtonOnClick.emit(true)"
+          ngdefaultcontrol
+        ></fs-button>
+        <fs-button
+          style="margin-left: 10px"
+          *ngIf="isShowNormalButton"
+          [type]="normalButtonType"
+          [text]="normalButtonTitle"
+          [icon]="normalButtonIcon"
+          (onClick)="normalButtonOnClick.emit()"
+          ngdefaultcontrol
+        ></fs-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

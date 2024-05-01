@@ -1,0 +1,16 @@
+<dx-number-box
+               [ngClass]="isRequired ? 'required-validation' : ''"
+               [(ngModel)]="value"
+               [labelMode]="labelMode"
+               [label]="label"
+               [mode]="mode"
+               [rtlEnabled]="true"
+               stylingMode="outlined"
+               [class]="class"
+               [disabled]="disabled"
+               [isValid]="isValid"
+               [validationError]="validationError"
+               [max]="max"
+               [min]="min"
+               (onBlur)="onTochFn!()">
+</dx-number-box>

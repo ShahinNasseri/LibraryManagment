@@ -1,0 +1,21 @@
+<dx-select-box
+  #element
+  [class]="class"
+  [(ngModel)]="value"
+  [label]="label"
+  [labelMode]="labelMode"
+  [disabled]="disabled"
+  [rtlEnabled]="rtlEnabled"
+  [displayExpr]="displayExpr"
+  [valueExpr]="valueExpr"
+  [dataSource]="dataSource"
+  [value]="value"
+  [placeholder]="placeholder"
+  [showClearButton]="showClearButton"
+  [noDataText]="noDataText"
+  [isValid]="isValid"
+  [dropDownOptions]="{hideOnParentScroll : true}"
+  [validationError]="validationError"
+  (onValueChanged)="onValueChangedExtra($event)"
+  [ngClass]="isRequired ? 'required-validation' : ''"
+></dx-select-box>

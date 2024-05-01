@@ -1,0 +1,131 @@
+:host {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+// .ag-theme-alpine {
+//     --ag-foreground-color: rgb(0 0 0);
+//     --ag-background-color: rgb(255 255 255);
+//     --ag-header-foreground-color: rgb(0 0 0);
+//     --ag-header-background-color: rgb(255 255 255);
+//     --ag-alpine-active-color: #1b74bb;
+//     --ag-range-selection-background-color: rgb(112 111 112 / 25%);
+//     --ag-odd-row-background-color: rgb(185 185 185 / 10%);
+//     --ag-header-column-resize-handle-color: rgb(197 197 197 / 38%);
+//     --ag-font-size: 10px;
+//     --ag-font-family: monospace;
+//     --ag-header-column-resize-handle-width: 0.1px !important;
+//     --ag-header-column-resize-handle-height: 100%;
+//     --ag-cell-horizontal-padding: 6px;
+// }
+
+// .ag-cell-inline-editing {
+//     width: 100%;
+//     height: 100%;
+// }
+
+// .ag-cell-focus {
+//     border: 1px solid #0174a7c9 !important;
+// }
+
+// .ag-rtl .ag-floating-filter-button {
+//     margin-right: 0px !important;
+// }
+
+// .ag-header-cell,
+// .ag-header-group-cell {
+//     padding-right: 0px !important;
+//     padding-left: 0px !important;
+// }
+
+// .ag-cell.ag-cell-range-selected:not(.ag-cell-range-single-cell).ag-cell-range-top {
+//     border-top-color: var(--ag-range-selection-border-color) !important;
+//     border-top-style: var(--ag-range-selection-border-style) !important;
+// }
+
+// .ag-cell.ag-cell-range-selected:not(.ag-cell-range-single-cell).ag-cell-range-right {
+//     border-right-color: var(--ag-range-selection-border-color) !important;
+//     border-right-style: var(--ag-range-selection-border-style) !important;
+// }
+
+// .ag-cell.ag-cell-range-selected:not(.ag-cell-range-single-cell).ag-cell-range-bottom {
+//     border-bottom-color: var(--ag-range-selection-border-color) !important;
+//     border-bottom-style: var(--ag-range-selection-border-style) !important;
+// }
+
+// .ag-cell.ag-cell-range-selected:not(.ag-cell-range-single-cell).ag-cell-range-left {
+//     border-left-color: var(--ag-range-selection-border-color) !important;
+//     border-left-style: var(--ag-range-selection-border-style) !important;
+// }
+
+// .ag-header-cell {
+//     font-size: 10.6px;
+//     color: #000a8591;
+//     font-weight: 600 !important;
+// }
+
+
+// .ag-header-container {
+//     background: linear-gradient(to top, #F5FCFF, #DBF3FA);
+//     /*  background: linear-gradient(to top, #F5FCFF, #64c7e57a);
+//   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;*/
+// }
+
+// .ag-header-row {
+//     font-weight: 100 !important;
+// }
+
+// .ag-floating-filter {
+//     border-left: 0.1px solid #b7b4b4;
+// }
+
+
+// .ag-center-cols-viewport {
+//     overflow: hidden !important;
+// }
+
+.custom-boolean-filter-reset-and-apply{
+    height: 50px;
+    padding-top: 13px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    padding: 9px;
+}
+
+
+.custom-boolean-filter {
+    height: 50px;
+    padding-top: 13px;
+    display: flex;
+    flex-direction: row;
+}
+
+.custom-radio {
+    /* Style your radio buttons and labels here */
+    /* Example: */
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.custom-radio input[type="radio"] {
+    /* Hidden radio button styling */
+    opacity: 0;
+    position: absolute;
+}
+
+.custom-radio span {
+    /* Custom radio button appearance */
+    /* Example: */
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.custom-radio input[type="radio"]:checked + span {
+    /* Styling for when radio is selected */
+    /* Example: */
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
