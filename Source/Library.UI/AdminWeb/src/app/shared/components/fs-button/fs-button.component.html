@@ -1,0 +1,38 @@
+<dx-button
+  *ngIf="!hasLoading"
+  [ngClass]="text === '' ? 'onlyIcon' : ''"
+  [class]="class"
+  [icon]="icon"
+  [text]="text"
+  [type]="type"
+  [stylingMode]="stylingMode"
+  [useSubmitBehavior]="useSubmitBehavior"
+  [disabled]="disabled"
+  [height]="height"
+  (onClick)="clicked.emit($event)"
+>
+</dx-button>
+
+<dx-button
+  *ngIf="hasLoading"
+  [ngClass]="text === '' ? 'onlyIcon' : ''"
+  [class]="class"
+  [icon]="icon"
+  [text]="text"
+  [type]="type"
+  [stylingMode]="stylingMode"
+  (onClick)="clicked.emit($event)"
+  [useSubmitBehavior]="useSubmitBehavior"
+  [disabled]="disabled"
+  [height]="height"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-load-indicator
+      class="button-indicator"
+      [visible]="disabled"
+      [height]="height"
+    >
+    </dx-load-indicator>
+    <span class="dx-button-text">{{ text }}</span>
+  </div>
+</dx-button>

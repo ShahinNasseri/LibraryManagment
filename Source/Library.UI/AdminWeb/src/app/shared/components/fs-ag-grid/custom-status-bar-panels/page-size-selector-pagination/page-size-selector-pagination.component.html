@@ -1,0 +1,13 @@
+<div style="display: flex; flex-direction: column; justify-content: center;height: 100%;">
+  <div class="custom-status-bar">
+    <span style="font-weight: bolder" class="status-bar-item">
+      {{ title }} :
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </span>
+    <!-- Add more status bar items as needed -->
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="custom-pagination prevent-select">
+  <a (click)="goToPreviousPage()" [style.visibility]="!isFirstPage ? 'visible' : 'hidden'"  style="font-weight: bolder;"  class="previous round prevent-select" title="Previous"><</a>
+  <span  style="font-weight: bolder;"  class="prevent-select">Page {{ currentPage }} From {{ totalPage }}</span>
+  <a [style.visibility]="!isLastPage ? 'visible' : 'hidden'"  style="font-weight: bolder;" (click)="goToNextPage()" class="next round prevent-select" title="Next">></a>
+</div>

@@ -1,0 +1,28 @@
+<dx-toolbar
+  #element
+  [items]="items"
+  (onContentReady)="onContentReady.emit($event)"
+  (onDisposing)="onDisposing.emit($event)"
+  (onInitialized)="onInitialized.emit($event)"
+  (onItemClick)="onItemClick.emit($event)"
+  (onItemContextMenu)="onItemContextMenu.emit($event)"
+  (onItemHold)="onItemHold.emit($event)"
+  (onItemRendered)="onItemRendered.emit($event)"
+  (onOptionChanged)="onOptionChanged.emit($event)"
+  (onFocusedRowChanged)="onFocusedRowChanged.emit($event)"
+>
+  <div *dxTemplate="let item of 'switchTemplate'">
+    <fs-switch
+      class="toolbar-switch"
+      [value]="item.switchOptions.value ?? false"
+      [disabled]="item.switchOptions.disabled ?? false"
+      [switchedOffText]="item.switchOptions.switchedOffText"
+      [switchedOnText]="item.switchOptions.switchedOnText"
+      [width]="item.switchOptions.width"
+      (onValueChanged)="item.switchOptions?.onValueChanged($event)"
+    >
+    </fs-switch>
+  </div>
+</dx-toolbar>
+
+<!--[renderAs]="renderAs"-->

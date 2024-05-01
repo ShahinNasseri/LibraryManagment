@@ -1,0 +1,4 @@
+::ng-deep .required-validation .dx-label span::after {
+  content: " *" !important;
+  color: #f44336 !important;
+}

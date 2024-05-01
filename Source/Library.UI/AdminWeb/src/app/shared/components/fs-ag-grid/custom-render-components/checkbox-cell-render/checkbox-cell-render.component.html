@@ -1,0 +1,13 @@
+<!-- <div class="d-flex justify-content-start">
+  <div [ngClass]="cellValue ? 'checkmark' : 'crossmark'"></div>
+</div> -->
+
+<label class="fgrid-switch">
+  <input
+    class="fgrid-input"
+    type="checkbox"
+    [attr.checked]="cellValue ? '' : null"
+    disabled="disabled"
+  />
+  <span class="fgrid-slider fgrid-round"></span>
+</label>

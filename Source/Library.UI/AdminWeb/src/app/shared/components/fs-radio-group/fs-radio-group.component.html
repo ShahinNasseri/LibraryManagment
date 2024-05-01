@@ -1,0 +1,37 @@
+<dx-radio-group #element
+                [ngClass]="isRequired ? 'required-validation' : ''"
+                [(value)]="value"
+                [ngClass]="compclass"
+                [ngStyle]="compStyle"
+                [dataSource]="dataSource"
+                [displayExpr]="displayExpr"
+                [valueExpr]="valueExpr"
+                [value]="value"
+                [accessKey]="accessKey"
+                [activeStateEnabled]="activeStateEnabled"
+                [disabled]="disabled"
+                [elementAttr]="elementAttr"
+                [focusStateEnabled]="focusStateEnabled"
+                [height]="height"
+                [hint]="hint"
+                [hoverStateEnabled]="hoverStateEnabled"
+                [isValid]="isValid"
+                [items]="items"
+                [itemTemplate]="itemTemplate"
+                [layout]="layout"
+                [name]="name"
+                [readOnly]="readOnly"
+                [rtlEnabled]="rtlEnabled"
+                [tabIndex]="tabIndex"
+                [validationError]="validationError"
+                [validationMessageMode]="validationMessageMode"
+                [visible]="visible"
+                [width]="width"
+                (onContentReady)="onContentReady.emit($event)"
+                (onDisposing)="onDisposing.emit($event)"
+                (onInitialized)="onInitialized.emit($event)"
+                (onOptionChanged)="onOptionChanged.emit($event)">
+  <!-- <dx-validator>
+    <dxi-validation-rule  *ngIf="isRequired"  type="required" [message]="isRequiredMessage"></dxi-validation-rule>
+  </dx-validator> -->
+</dx-radio-group>

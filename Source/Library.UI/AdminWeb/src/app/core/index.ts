@@ -15,3 +15,13 @@ export * from './general/interceptors';
 export * from './authentication';
 
 export  * from './general/custom-validators';
+
+export * from './general/animations/defaults';
+export * from './general/animations/expand-collapse';
+export * from './general/animations/fade';
+export * from './general/animations/public-api';
+export * from './general/animations/shake';
+export * from './general/animations/slide';
+export * from './general/animations/zoom';
+
+
