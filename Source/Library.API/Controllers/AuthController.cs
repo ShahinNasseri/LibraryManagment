@@ -61,7 +61,5 @@ namespace Library.API.Controllers
             var Response = new ApiResult<GetUserDataResponse>(await _authService.GetUserData(request));
             return Response;
         }
-
-
     }
 }
