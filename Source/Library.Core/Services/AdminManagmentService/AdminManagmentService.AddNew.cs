@@ -1,4 +1,6 @@
 ﻿using Library.Common.DTOs.AdminManagment.Requests;
+using Library.Common.DTOs.Commons;
+using Library.Common.Exceptions;
 using Library.Common.Helpers;
 using Library.Core.Domain.Entities;
 using System;
@@ -11,15 +13,38 @@ namespace Library.Core.Services.AdminManagmentService
 {
     public partial class AdminManagmentService
     {
+        private async Task DeActiveUserAsync(User? admin)
+        {
+            admin.IsActive = false;
+            _uow.Users.Update(admin);
+            await _uow.SaveChangesAsync();
+        }
+        private Task<User?> GetAdminById(long AdminId)
+        {
+            return _uow.Users.GetByIdAsync(AdminId);
+        }
+        private static void ValidateForDeactive(EntityId request, User? admin)
+        {
+            if (admin == null)
+                throw new CustomInvalidRequestException("The Selected User is not exsist in database anymore");
+            if (admin.Id == request._UserId)
+                throw new CustomInvalidRequestException("Users Cannot Deactive Themselvs");
+            if (admin.IsAdmin == false)
+                throw new CustomInvalidRequestException("The Selected User is not admin");
+        }
 
-
+        private static void AccessValidation(AddNewAdminRequest request)
+        {
+            if (request._UserIsAdmin == false)
+                throw new CustomInvalidRequestException();
+        }
         private static void NormalizeCredentials(ref AddNewAdminRequest request)
         {
             request.Email = request.Email!.Trim().ToLower();
             request.Username = request.Username!.Trim().ToLower();
         }
 
-        private async Task InsertAdminUserToDatabase(AddNewAdminRequest request)
+        private async Task InsertAdminUserToDatabaseAsync(AddNewAdminRequest request)
         {
             var (hashPassword, passwordSalt) = GenerateHashPassword(request.Password!);
             var adminModel = new User()
