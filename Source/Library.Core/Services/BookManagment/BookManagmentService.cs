@@ -15,13 +15,19 @@ using Library.Common.DTOs.Commons;
 
 namespace Library.Core.Services.BookManagment
 {
-    public partial class BookManagmentService
+    public partial class BookManagmentService : IBookManagmentService
     {
         private readonly IUnitOfWork _uow;
 
         public BookManagmentService(IUnitOfWork uow)
         {
             _uow = uow;
+        }
+
+        public async Task RemoveBook(EntityIds request)
+        {
+            await _uow.Books.DeleteRangeAsync(request.Ids);
+            await _uow.SaveChangesAsync();
         }
 
         public async Task InsertBook(InsertBookRequest request)
@@ -63,5 +69,6 @@ namespace Library.Core.Services.BookManagment
             return await _uow.Loans.GetBookListWithPaginationAsync(request);
         }
 
+       
     }
 }

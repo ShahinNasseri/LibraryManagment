@@ -89,6 +89,15 @@ namespace Library.Infrastructure.Data.Repositories
             return await query.AsNoTracking().ToListAsync();
         }
 
+        public async Task DeleteRangeAsync(string ids)
+        {
+            // Convert the string of IDs into a list of integers
+            var idsToDelete = ids.Split(',').Select(long.Parse).ToList();
+
+            var itemsToDelete = await _context.Set<Book>().Where(book => idsToDelete.Contains(book.BookId)).ToListAsync();
+            _context.Set<Book>().RemoveRange(itemsToDelete);
+        }
+
         public async Task<Book?> GetByIdAsync(int id)
         {
             return await _context.Set<Book>().FindAsync(id);
