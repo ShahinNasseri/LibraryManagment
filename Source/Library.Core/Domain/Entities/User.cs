@@ -21,6 +21,8 @@ namespace Library.Core.Domain.Entities
         public bool IsAdmin { get; set; }
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
+        public ICollection<Loan> UserLoans { get; set; } = new List<Loan>();
+
 
     }
 }

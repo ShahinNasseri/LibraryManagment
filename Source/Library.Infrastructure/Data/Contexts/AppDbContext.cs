@@ -19,6 +19,8 @@ namespace Library.Infrastructure.Data.Contexts
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Loan> Loans { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

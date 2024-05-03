@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\AdminManagment\Responses\" />
+    <Folder Include="DTOs\BookManagment\Responses\" />
     <Folder Include="Extensions\" />
     <Folder Include="Constants\" />
     <Folder Include="Interfaces\" />
