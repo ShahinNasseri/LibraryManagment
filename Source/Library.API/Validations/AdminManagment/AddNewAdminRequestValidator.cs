@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 using Library.Common.DTOs.AdminManagment.Requests;
-using Library.Common.DTOs.Auth.Requests;
 using Library.Core.Interfaces.Services;
 
-namespace Library.API.Validations.AdminAuth.Requests
+namespace Library.API.Validations.AdminManagment
 {
-    public class RegisterAdminRequestValidator : AbstractValidator<RegisterRequest>
+    public class AddNewAdminRequestValidator: AbstractValidator<AddNewAdminRequest>
     {
         private IAuthService _authService { get; set; }
-        public RegisterAdminRequestValidator(IAuthService authService)
+        public AddNewAdminRequestValidator(IAuthService authService)
         {
             _authService = authService;
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email is required").EmailAddress().WithMessage("The Email is not valid").MustAsync(BeUniqueEmail).WithMessage("This email is already taken for another account");

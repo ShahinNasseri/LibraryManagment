@@ -1,5 +1,7 @@
 ﻿using Library.API.Models;
 using Library.Common.DTOs.AdminManagment.Requests;
+using Library.Common.DTOs.Commons;
+using Library.Core.Domain.Entities;
 using Library.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,10 +20,32 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult> Insert([FromBody] AddNewAdminRequest request)
+        public async Task<ApiResult> InsertAdmin([FromBody] AddNewAdminRequest request)
         {
             await _adminManagmentService.AddNewAdmin(request);
             return new ApiResult(null);
         }
+
+        [HttpPost]
+        public async Task<ApiResult> RemoveAdmin([FromBody] EntityIds request)
+        {
+            await _adminManagmentService.RemoveAdmin(request);
+            return new ApiResult(null);
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> DeactiveAdmin([FromBody] EntityId request)
+        {
+            await _adminManagmentService.DeactiveAdmin(request);
+            return new ApiResult(null);
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<User>> ListAdmin([FromBody] GetAdminListRequest request)
+        {
+            var res = await _adminManagmentService.GetAdminList(request);
+            return new ApiResult<User>(res);
+        }
+
     }
 }

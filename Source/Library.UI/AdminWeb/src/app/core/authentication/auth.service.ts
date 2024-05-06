@@ -5,6 +5,9 @@ import { User } from './interface';
 import { TokenService } from './token.service';
 
 import {AuthService as AuthApiService, LoginRequest, RegisterRequest} from '@core/api/auth/index';
+import { GetUserDataResponse } from '@core/api/auth/models/get-user-data-response.model';
+import { ApiResponse } from '@core/general/models/api-response.model';
+import { StartupService } from '@core/bootstrap/startup.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +15,7 @@ import {AuthService as AuthApiService, LoginRequest, RegisterRequest} from '@cor
 export class AuthService {
   private readonly authApiService = inject(AuthApiService);
   private readonly tokenService = inject(TokenService);
+
 
   private user$ = new BehaviorSubject<User>({});
   private change$ = merge(
@@ -48,7 +52,9 @@ export class AuthService {
       tap(response => {
         this.tokenService.set(response.data![0]);
       }),
-      map(() => this.check())
+      map(() => {
+        this.check();
+      })
     );
   }
 
@@ -74,7 +80,12 @@ export class AuthService {
   }
 
   menu() {
-    return iif(() => this.check(), this.authApiService.getMenu(), of([]));
+    const user = this.user$.getValue();
+    if(user.id == null)
+      return of([]);
+    else
+      return iif(() => this.check(), this.authApiService.getMenu(user.isAdmin), of([]));
+
   }
 
   private assignUser() {
@@ -85,11 +96,14 @@ export class AuthService {
     if (!isEmptyObject(this.user$.getValue())) {
       return of(this.user$.getValue());
     }
-    return this.authApiService.getUserData().pipe(tap((reponse: any) => {
+    // eslint-disable-next-line max-len
+    return this.authApiService.getUserData().pipe(tap((reponse: ApiResponse<GetUserDataResponse>) => {
       const user: User = {
         email: reponse.data![0].username,
         id: reponse.data![0].id,
-        name: reponse.data![0].fullName
+        name: reponse.data![0].fullName,
+        isActive: reponse.data![0].isActive,
+        isAdmin: reponse.data![0].isAdmin
       };
       this.user$.next(user);
     }));

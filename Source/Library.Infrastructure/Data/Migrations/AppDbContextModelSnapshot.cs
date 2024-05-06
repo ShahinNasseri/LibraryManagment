@@ -22,6 +22,70 @@ namespace Library.Infrastructure.Data.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Library.Core.Domain.Entities.Book", b =>
+                {
+                    b.Property<int>("BookId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BookId"));
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Isbn")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("PublicationYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Library.Core.Domain.Entities.Loan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LoanDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ReturnDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Returned")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Loans");
+                });
+
             modelBuilder.Entity("Library.Core.Domain.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -181,6 +245,25 @@ namespace Library.Infrastructure.Data.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("Library.Core.Domain.Entities.Loan", b =>
+                {
+                    b.HasOne("Library.Core.Domain.Entities.Book", "Book")
+                        .WithMany("Loan")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library.Core.Domain.Entities.User", "User")
+                        .WithMany("UserLoans")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Library.Core.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("Library.Core.Domain.Entities.Permission", "Permission")
@@ -236,6 +319,11 @@ namespace Library.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Library.Core.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("Loan");
+                });
+
             modelBuilder.Entity("Library.Core.Domain.Entities.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
@@ -252,6 +340,8 @@ namespace Library.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Library.Core.Domain.Entities.User", b =>
                 {
+                    b.Navigation("UserLoans");
+
                     b.Navigation("UserPermissions");
 
                     b.Navigation("UserRoles");

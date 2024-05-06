@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Library.Common.DTOs.AdminManagment.Requests
 {
-    public class DeactiveAdminRequest: UserIdentity
+    public class GetAdminListRequest: EntityList
     {
-        public long Id { get; set; }
+        public long UserId { get; set; }
     }
 }

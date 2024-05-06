@@ -1,0 +1,22 @@
+{
+  "menu": [
+    {
+      "route": "dashboard",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard"
+    },
+    {
+      "route": "admin-managment",
+      "name": "admin-managment",
+      "type": "link",
+      "icon": "group"
+    },
+    {
+      "route": "book-managment",
+      "name": "book-managment",
+      "type": "link",
+      "icon": "library_books"
+    }
+  ]
+}

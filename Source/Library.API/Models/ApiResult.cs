@@ -40,7 +40,7 @@ namespace Library.API.Models
         [JsonPropertyName("statusCode")]
         public int? StatusCode { get; set; }
 
-        public ApiResult(List<T> data, int statusCode = StatusCodes.Status200OK, string[] errors = null)
+        public ApiResult(IEnumerable<T> data, int statusCode = StatusCodes.Status200OK, string[] errors = null)
         {
             Data = data;
             StatusCode = statusCode;

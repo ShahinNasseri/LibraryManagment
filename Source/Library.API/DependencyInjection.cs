@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Library.API.ExceptionHandlers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Library.API.Validations.AdminAuth.Requests;
 using System;
 using Library.Common.DTOs.AdminAuth.Requests;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;

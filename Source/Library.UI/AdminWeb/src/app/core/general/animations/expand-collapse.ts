@@ -5,10 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import {
-  FsAnimationCurves,
-  FsAnimationDurations,
-} from '@fs/core/general/helpers/animations/defaults';
+import { FsAnimationCurves, FsAnimationDurations } from './defaults';
 
 // -----------------------------------------------------------------------------------------------------
 // @ Expand / collapse

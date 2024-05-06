@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Common.DTOs.AdminManagment.Requests
+namespace Library.Common.DTOs.BookManagment.Requests
 {
-    public class RemoveAdminRequest: UserIdentity
+    public class ReturnBookRequest: UserIdentity
     {
-        public long Id { get; set; }
+        public int LoanId { get; set; }
     }
 }

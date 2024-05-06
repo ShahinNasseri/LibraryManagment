@@ -1,4 +1,5 @@
 ﻿using Library.Common.DTOs.AdminManagment.Requests;
+using Library.Common.DTOs.Commons;
 using Library.Common.Exceptions;
 using Library.Core.Domain.Entities;
 using System;
@@ -11,34 +12,21 @@ namespace Library.Core.Services.AdminManagmentService
 {
     public partial class AdminManagmentService
     {
-        private async void RemoveAdminInDatabase(User admin)
+        private async Task DeleteUserByIdsAsync(string adminIds)
         {
-            _uow.Users.Delete(admin);
-            var rowEffectedCount = await _uow.SaveChangesAsync();
-            if (rowEffectedCount == 0)
-                throw new CustomOperationFailException("The admin account you are trying to delete does not exist.");
+            await _uow.Users.DeleteRangeAsync(adminIds);
+            await _uow.SaveChangesAsync();
         }
 
-        private async Task<User> GetAdminById(long adminId)
+        private static void ValidateAdminDeletion(EntityIds request)
         {
-            
+            // Convert the string of IDs into a list of integers
+            var idsToDelete = request.Ids.Split(',').Select(long.Parse).ToList();
+            long requestedUserId = request._UserId.Value;
 
-            var admin = await _uow.Users.GetByIdAsync(adminId);
-            if (admin is null)
-                throw new CustomInvalidRequestException();
-            return admin;
-        }
-
-        private static void ValidateAdminDeletion(User user, RemoveAdminRequest request)
-        {
-            if (user.Id == request._UserId)
+            if (idsToDelete.Contains(requestedUserId))
             { 
-                throw new CustomOperationFailException("User cannot delete themselvs");
-            }
-
-            if(user.IsAdmin == false)
-            {
-                throw new CustomOperationFailException("The Selected User Is not admin");
+                throw new CustomOperationFailException("Users cannot delete themselvs");
             }
         }
     }

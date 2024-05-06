@@ -1,4 +1,5 @@
-﻿using Library.Core.Domain.Entities;
+﻿using Library.Common.DTOs.AdminManagment.Requests;
+using Library.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Library.Core.Interfaces.Repositories
     {
         Task<User> AddAsync(User entity);
         void Delete(User entity);
+        Task DeleteRangeAsync(string ids);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(long id);
         Task<User?> GetByRefreshToken(string refreshToken);
@@ -18,5 +20,6 @@ namespace Library.Core.Interfaces.Repositories
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByEmailOrUsernameAsync(string emailOrUsername);
         void Update(User entity);
+        Task<IEnumerable<User>> GetAdminUserListAsync(GetAdminListRequest request);
     }
 }

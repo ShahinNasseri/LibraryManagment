@@ -24,7 +24,8 @@ namespace Library.Infrastructure.Data
         public IRoleRepository Roles { get; private set; }
         public IUserPermissionRepository UserPermissions { get; private set; }
         public IUserRoleRepository UserRoles { get; private set; }
-
+        public ILoanRepository Loans { get; private set; }
+        public IBookRepository Books { get; set; }
 
         public UnitOfWork(AppDbContext context)
         {
@@ -35,6 +36,8 @@ namespace Library.Infrastructure.Data
             Roles = new RoleRepository(context);
             UserPermissions = new UserPermissionRepository(context);
             UserRoles = new UserRoleRepository(context);
+            Loans = new LoanRepository(context);
+            Books = new BookRepository(context);
             // Initialize other repositories similarly
         }
 

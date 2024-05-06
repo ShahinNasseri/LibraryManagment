@@ -10,6 +10,9 @@ namespace Library.Core.Interfaces
     public interface IUnitOfWork
     {
         IUserRepository Users { get; }
+        IBookRepository Books { get; }
+        ILoanRepository Loans { get; }
+
 
         Task BeginTransactionAsync();
         Task CommitAsync();

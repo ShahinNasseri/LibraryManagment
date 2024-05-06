@@ -1,28 +1,9 @@
-import { expandCollapse } from '@fs/core/general/helpers/animations/expand-collapse';
-import {
-  fadeIn,
-  fadeInBottom,
-  fadeInLeft,
-  fadeInRight,
-  fadeInTop,
-  fadeOut,
-  fadeOutBottom,
-  fadeOutLeft,
-  fadeOutRight,
-  fadeOutTop,
-} from '@fs/core/general/helpers/animations/fade';
-import { shake } from '@fs/core/general/helpers/animations/shake';
-import {
-  slideInBottom,
-  slideInLeft,
-  slideInRight,
-  slideInTop,
-  slideOutBottom,
-  slideOutLeft,
-  slideOutRight,
-  slideOutTop,
-} from '@fs/core/general/helpers/animations/slide';
-import { zoomIn, zoomOut } from '@fs/core/general/helpers/animations/zoom';
+import { expandCollapse } from './expand-collapse';
+import { fadeIn, fadeInBottom, fadeInLeft, fadeInRight, fadeInTop, fadeOut, fadeOutBottom, fadeOutLeft, fadeOutRight, fadeOutTop } from './fade';
+import { shake } from './shake';
+import { slideInBottom, slideInLeft, slideInRight, slideInTop, slideOutBottom, slideOutLeft, slideOutRight, slideOutTop } from './slide';
+import { zoomIn, zoomOut } from './zoom';
+
 
 export const fsAnimations = [
   expandCollapse,

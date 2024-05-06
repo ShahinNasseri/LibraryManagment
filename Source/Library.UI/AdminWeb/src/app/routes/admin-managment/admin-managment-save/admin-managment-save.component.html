@@ -1,0 +1,36 @@
+<mat-card>
+    <form [formGroup]="entityForm" (ngSubmit)="onSubmit()" autocompleteOff>
+      <mat-form-field appearance="fill">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="registerFullName" required>
+        <mat-error *ngIf="entityForm.get('registerFullName')?.hasError('required')">Full Name is required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="registerEmail" required type="email" >
+        <mat-error *ngIf="entityForm.get('registerEmail')?.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="entityForm.get('registerEmail')?.hasError('email')">Enter a valid email</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="registerUsername" name="username" required autocompleteOff >
+        <mat-error *ngIf="entityForm.get('registerUsername')?.hasError('required')">Username is required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="registerPassword" name="registerPassword" required type="password" autocompleteOff>
+        <mat-error *ngIf="entityForm.get('registerPassword')?.hasError('required')">Password is required</mat-error>
+      </mat-form-field>
+  
+      <mat-checkbox formControlName="isActive">Is Active</mat-checkbox>
+  
+      <button mat-flat-button extended color="primary" type="submit"  [disabled]="!entityForm.valid">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    </form>
+  </mat-card>
+  

@@ -3,6 +3,7 @@ using Library.Core.Interfaces;
 using Library.Core.Interfaces.Services;
 using Library.Core.Services;
 using Library.Core.Services.AdminManagmentService;
+using Library.Core.Services.BookManagment;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -19,6 +20,7 @@ namespace Library.Core
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAdminManagmentService, AdminManagmentService>();
+            services.AddScoped<IBookManagmentService, BookManagmentService>();
 
             return services;
         }

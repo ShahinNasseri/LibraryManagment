@@ -9,6 +9,10 @@ using Library.Common.Exceptions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Common.DTOs.Commons;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Collections;
 
 namespace Library.Core.Services.AdminManagmentService
 {
@@ -24,20 +28,24 @@ namespace Library.Core.Services.AdminManagmentService
         {
             NormalizeCredentials(ref request);
             AccessValidation(request);
-            await InsertAdminUserToDatabase(request);
+            await InsertAdminUserToDatabaseAsync(request);
         }
 
-        private static void AccessValidation(AddNewAdminRequest request)
+        public async Task RemoveAdmin(EntityIds request)
         {
-            if (request._UserIsAdmin == false)
-                throw new CustomInvalidRequestException();
+            await DeleteUserByIdsAsync(request.Ids);
         }
 
-        public async Task RemoveAdmin(RemoveAdminRequest request)
+        public async Task DeactiveAdmin(EntityId request)
         {
-            var admin = await GetAdminById(request.Id);
-            ValidateAdminDeletion(admin, request);
-            RemoveAdminInDatabase(admin);
+            User? admin = await GetAdminById(request._UserId.Value);
+            ValidateForDeactive(request, admin);
+            await DeActiveUserAsync(admin);
+        }
+
+        public async Task<IEnumerable<User>> GetAdminList(GetAdminListRequest request)
+        {
+            return await _uow.Users.GetAdminUserListAsync(request);
         }
     }
 }

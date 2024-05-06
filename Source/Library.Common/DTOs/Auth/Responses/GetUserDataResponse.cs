@@ -11,6 +11,8 @@ namespace Library.Common.DTOs.Auth.Responses
         public long Id { get; set; }
         public string FullName { get; set; }
         public string Username { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsAdmin { get; set; }
 
     }
 }

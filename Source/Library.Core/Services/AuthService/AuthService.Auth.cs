@@ -22,7 +22,9 @@ namespace Library.Core.Services
             {
                 FullName = user.FullName,
                 Id = user.Id,
-                Username = user.Username
+                Username = user.Username,
+                IsActive = user.IsActive,
+                IsAdmin = user.IsAdmin
             };
         }
         private async Task ClearRefreshToken(User user)

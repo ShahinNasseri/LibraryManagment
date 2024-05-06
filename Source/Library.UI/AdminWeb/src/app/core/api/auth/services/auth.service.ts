@@ -35,13 +35,20 @@ export class AuthService {
   }
 
   getUserData(){
-    return this.http.post('/Auth/GetUserData', {});
+    return this.http.post<ApiResponse<GetUserDataResponse>>('/Auth/GetUserData', {});
   }
 
-  getMenu(){
-    return this.http
-      .get<{ menu: Menu[] }>('./assets/data/menu.json?_t=' + Date.now())
+  getMenu(isLoadForAdmin: boolean = false){
+    if(isLoadForAdmin){
+      return this.http
+      .get<{ menu: Menu[] }>('./assets/data/menu_admin.json?_t=' + Date.now())
       .pipe(map(res => res.menu));
+    }else{
+      return this.http
+      .get<{ menu: Menu[] }>('./assets/data/menu_user.json?_t=' + Date.now())
+      .pipe(map(res => res.menu));
+    }
+
   }
 
 }

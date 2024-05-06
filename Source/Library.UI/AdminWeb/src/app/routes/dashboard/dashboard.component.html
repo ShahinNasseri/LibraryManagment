@@ -3,5 +3,11 @@
     </page-header>
     <div style="flex: 1;">
         <!-- dashboard body -->
+        @if (isAdmin === true) {
+            <app-admin-dashboard></app-admin-dashboard>
+        }
+        @if (isAdmin === false){
+        <app-user-dashboard></app-user-dashboard>
+        }
     </div>
 </div>
