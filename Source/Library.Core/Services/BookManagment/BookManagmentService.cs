@@ -43,7 +43,7 @@ namespace Library.Core.Services.BookManagment
             await UpdateBookInDatabase(book);
         }
 
-        public async Task<IEnumerable<Book>> GetBookList(GetBooksList request)
+        public async Task<IEnumerable<Book>> GetBookList(GetBooksListRequest request)
         {
             return await _uow.Books.GetBookListWithPaginationAsync(request);
         }
@@ -64,7 +64,7 @@ namespace Library.Core.Services.BookManagment
             await UpdateLoanInDatabase(loan);
         }
 
-        public async Task<IEnumerable<Loan>> GetLoanList(GetLoanList request)
+        public async Task<IEnumerable<Loan>> GetLoanList(GetLoanListRequest request)
         {
             return await _uow.Loans.GetBookListWithPaginationAsync(request);
         }

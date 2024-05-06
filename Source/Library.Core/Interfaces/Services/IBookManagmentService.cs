@@ -12,8 +12,8 @@ namespace Library.Core.Interfaces.Services
     public interface IBookManagmentService
     {
         Task BorrowBook(BorrowBookRequest request);
-        Task<IEnumerable<Book>> GetBookList(GetBooksList request);
-        Task<IEnumerable<Loan>> GetLoanList(GetLoanList request);
+        Task<IEnumerable<Book>> GetBookList(GetBooksListRequest request);
+        Task<IEnumerable<Loan>> GetLoanList(GetLoanListRequest request);
         Task InsertBook(InsertBookRequest request);
         Task RemoveBook(EntityIds request);
         Task ReturnedBook(ReturnBookRequest request);

@@ -43,7 +43,7 @@ namespace Library.Core.Services.AdminManagmentService
             await DeActiveUserAsync(admin);
         }
 
-        public async Task<IEnumerable<User>> GetAdminList(GetAdminList request)
+        public async Task<IEnumerable<User>> GetAdminList(GetAdminListRequest request)
         {
             return await _uow.Users.GetAdminUserListAsync(request);
         }

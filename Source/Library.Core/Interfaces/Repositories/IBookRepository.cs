@@ -15,7 +15,7 @@ namespace Library.Core.Interfaces.Repositories
         Task<Book?> GetByIdAsync(int id);
         Task DeleteRangeAsync(string ids);
         Task<IEnumerable<Book>> GetAllAsync(bool trackEntity = false);
-        Task<IEnumerable<Book>> GetBookListWithPaginationAsync(GetBooksList request);
+        Task<IEnumerable<Book>> GetBookListWithPaginationAsync(GetBooksListRequest request);
         Task<Book?> GetByIdAsync(long id);
         void Update(Book entity);
     }

@@ -20,6 +20,7 @@ import { environment } from '@env/environment';
 import { PaginatorI18nService } from '@shared';
 import { routes } from './app.routes';
 import { FormlyConfigModule } from './formly-config.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 
 // Required for AOT compilation
@@ -61,6 +62,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: MAT_DATE_LOCALE,
       useFactory: () => navigator.language, // <= This will be overrided by runtime setting
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        subscriptSizing: 'dynamic'
+      }
     },
     {
       provide: MAT_CARD_CONFIG,

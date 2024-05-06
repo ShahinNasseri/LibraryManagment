@@ -57,14 +57,14 @@ namespace Library.API.Controllers
 
 
         [HttpPost]
-        public async Task<ApiResult> GetLoanList([FromBody] GetLoanList request)
+        public async Task<ApiResult> GetLoanList([FromBody] GetLoanListRequest request)
         {
             await _bookManagmentService.GetLoanList(request);
             return new ApiResult(null);
         }
 
         [HttpPost]
-        public async Task<ApiResult<Book>> GetBookList([FromBody] GetBooksList request)
+        public async Task<ApiResult<Book>> GetBookList([FromBody] GetBooksListRequest request)
         {
             var res = await _bookManagmentService.GetBookList(request);
             return new ApiResult<Book>(res);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.Common.DTOs.AdminManagment.Requests
 {
-    public class GetAdminList: EntityList
+    public class GetAdminListRequest: EntityList
     {
         public long UserId { get; set; }
     }

@@ -1,6 +1,8 @@
 {
   "menu": {
     "dashboard": "Dashboard",
+    "admin-managment": "Admin Managment",
+    "book-managment": "Book Managment",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",

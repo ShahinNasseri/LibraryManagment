@@ -20,6 +20,6 @@ namespace Library.Core.Interfaces.Repositories
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByEmailOrUsernameAsync(string emailOrUsername);
         void Update(User entity);
-        Task<IEnumerable<User>> GetAdminUserListAsync(GetAdminList request);
+        Task<IEnumerable<User>> GetAdminUserListAsync(GetAdminListRequest request);
     }
 }

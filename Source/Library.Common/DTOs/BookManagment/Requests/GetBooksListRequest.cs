@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace Library.Common.DTOs.BookManagment.Requests
 {
-    public class GetLoanList: EntityList
+    public class GetBooksListRequest: EntityList
     {
-        public long? UserId { get; set; }
-        public int? LoanId { get; set; }
-        public bool? IsReturned { get; set; }
-        public bool? IsOverDue { get; set; }
+        public int? BookId { get; set; }
+        public bool? inLoan { get; set; }
+        public bool? FreeBooks { get; set; }
     }
 }

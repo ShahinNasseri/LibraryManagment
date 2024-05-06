@@ -1,6 +1,8 @@
 {
     "menu": {
       "dashboard": "داشبورد",
+      "admin-managment": "مدیریت کاربران",
+      "book-managment": "مدیریت کتاب ها",
       "design": "طراحی",
       "design.colors": "سیستم رنگ",
       "design.icons": "آیکون‌های متریال",

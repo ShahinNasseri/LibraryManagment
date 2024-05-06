@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 
 import { AuthService } from '@core/authentication';
+import { StartupService } from '@core';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,8 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
+  private readonly startupService = inject(StartupService);
+
 
   isSubmitting = false;
 
@@ -62,7 +65,9 @@ export class LoginComponent {
       .login({password: this.password.value, usernameEmail: this.username.value})
       .subscribe({
         next: (res) => {
-          this.router.navigateByUrl('/');
+          this.startupService.load().then(() =>{
+            this.router.navigateByUrl('/');
+          });
         },
         error: (errorRes: HttpErrorResponse) => {
           if (errorRes.status === 422) {

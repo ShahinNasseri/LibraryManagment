@@ -52,7 +52,7 @@ namespace Library.Infrastructure.Data.Repositories
             _context.Set<Loan>().Remove(entity);
         }
 
-        public async Task<IEnumerable<Loan>> GetBookListWithPaginationAsync(GetLoanList request)
+        public async Task<IEnumerable<Loan>> GetBookListWithPaginationAsync(GetLoanListRequest request)
         {
             IQueryable<Loan> query = _context.Set<Loan>();
 

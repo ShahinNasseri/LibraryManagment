@@ -14,7 +14,7 @@ namespace Library.Core.Interfaces.Repositories
         void Delete(Loan entity);
         Task<Loan?> GetByIdAsync(int id);
         Task<IEnumerable<Loan>> GetAllAsync(bool trackEntity = false);
-        Task<IEnumerable<Loan>> GetBookListWithPaginationAsync(GetLoanList request);
+        Task<IEnumerable<Loan>> GetBookListWithPaginationAsync(GetLoanListRequest request);
         Task<Loan?> GetByIdAsync(long id);
         void Update(Loan entity);
     }

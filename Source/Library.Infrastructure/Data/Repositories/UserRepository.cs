@@ -79,7 +79,7 @@ namespace Library.Infrastructure.Data.Repositories
             _context.Set<User>().RemoveRange(usersToDelete);
         }
 
-        public async Task<IEnumerable<User>> GetAdminUserListAsync(GetAdminList request)
+        public async Task<IEnumerable<User>> GetAdminUserListAsync(GetAdminListRequest request)
         {
             IQueryable<User> query = _context.Set<User>();
 

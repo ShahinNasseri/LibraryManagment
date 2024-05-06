@@ -20,14 +20,14 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult> Insert([FromBody] AddNewAdminRequest request)
+        public async Task<ApiResult> InsertAdmin([FromBody] AddNewAdminRequest request)
         {
             await _adminManagmentService.AddNewAdmin(request);
             return new ApiResult(null);
         }
 
         [HttpPost]
-        public async Task<ApiResult> Delete([FromBody] EntityIds request)
+        public async Task<ApiResult> RemoveAdmin([FromBody] EntityIds request)
         {
             await _adminManagmentService.RemoveAdmin(request);
             return new ApiResult(null);
@@ -41,7 +41,7 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult<User>> ListAdmin([FromBody] GetAdminList request)
+        public async Task<ApiResult<User>> ListAdmin([FromBody] GetAdminListRequest request)
         {
             var res = await _adminManagmentService.GetAdminList(request);
             return new ApiResult<User>(res);

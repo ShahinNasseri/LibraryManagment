@@ -53,7 +53,7 @@ namespace Library.Infrastructure.Data.Repositories
             _context.Set<Book>().Remove(entity);
         }
 
-        public async Task<IEnumerable<Book>> GetBookListWithPaginationAsync(GetBooksList request)
+        public async Task<IEnumerable<Book>> GetBookListWithPaginationAsync(GetBooksListRequest request)
         {
             IQueryable<Book> query = _context.Set<Book>();
 

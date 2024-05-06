@@ -133,7 +133,7 @@ export class FsAgGridComponent implements OnDestroy, OnInit, AfterViewInit {
   @Input() rowGroupPanelShow: 'always' | 'onlyWhenGrouping' | 'never' | undefined;
 
   // if set to true it will not show the custom pagination panel
-  @Input() suppressCustomPaginationPanel: boolean = false;
+  @Input() suppressCustomPaginationPanel: boolean = true;
 
   @Input() statusBar:
     | {
@@ -429,7 +429,9 @@ export class FsAgGridComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.componentLevelLogicForInitial();
+    // this.componentLevelLogicForInitial();
+    this.showGrid = true;
+    this.cdr.detectChanges();
     this.getParentComponentName();
     this.initialObservable();
     this.handleSubscribers();

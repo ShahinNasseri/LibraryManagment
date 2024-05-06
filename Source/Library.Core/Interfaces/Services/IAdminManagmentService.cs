@@ -14,6 +14,6 @@ namespace Library.Core.Interfaces.Services
         Task AddNewAdmin(AddNewAdminRequest request);
         Task RemoveAdmin(EntityIds request);
         Task DeactiveAdmin(EntityId request);
-        Task<IEnumerable<User>> GetAdminList(GetAdminList request);
+        Task<IEnumerable<User>> GetAdminList(GetAdminListRequest request);
     }
 }
